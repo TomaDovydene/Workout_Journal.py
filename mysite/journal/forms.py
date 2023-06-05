@@ -1,4 +1,4 @@
-from .models import Profile, Workout, Exercise
+from .models import Profile, Workout, Exercise, ExerciseName
 from django import forms
 from django.contrib.auth.models import User
 
@@ -32,14 +32,12 @@ class ExerciseForm(forms.ModelForm):
 
     class Meta:
         model = Exercise
-        fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep']
+        fields = ['custom_exercise_name', 'weight', 'set', 'rep']
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        predefined_exercises = Exercise.EXERCISES_LIST
-        user_custom_exercises = Exercise.objects.filter(athlete=user).values_list('custom_exercises__exercise_name', flat=True).distinct()
-        exercise_choices = list(predefined_exercises) + list(user_custom_exercises)
-        self.fields['exercise_name'].choices = exercise_choices
+        exercise_choices = [(name.id, name.name) for name in ExerciseName.objects.all()]
+        self.fields['exercise_name'] = forms.ChoiceField(choices=exercise_choices, required=False)
 
 
 

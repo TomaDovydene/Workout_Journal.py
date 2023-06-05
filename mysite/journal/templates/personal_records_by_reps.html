@@ -32,7 +32,7 @@
       {% for workout, exercise in workouts %}
         <tr>
           <td>{{ exercise_name }}</td>
-          <td>{{ workout.title }}</td>
+          <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
           <td>{{ workout.date|date:'Y-m-d' }}</td>
           <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
           <td>{{ exercise.set }} sets</td>
@@ -40,9 +40,11 @@
           <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
         </tr>
       {% empty %}
+    {% if workouts %}
         <tr>
           <td colspan="7">No workouts found.</td>
         </tr>
+    {% endif %}
       {% endfor %}
     {% empty %}
       <tr>

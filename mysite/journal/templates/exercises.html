@@ -13,14 +13,14 @@
     <div class="col-md-4 d-flex align-items-stretch">
       <div class="card mb-4 shadow-sm">
         {% with exercise=exercise_group.0 %}
-          {% if exercise.pic %}
-            <img src="{{ exercise.pic.url }}" class="card-img-top" alt="...">
+          {% if exercise.exercise_name.pic %}
+            <img src="{{ exercise.exercise_name.pic.url }}" class="card-img-top" alt="...">
           {% else %}
             <img src="{% static 'img/no-image.png' %}" class="card-img-top">
           {% endif %}
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">{{ exercise.exercise_name }}</h6>
-          <a href="{% url 'exercise_workouts' exercise.exercise_name %}">View Details</a>
+          <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">View Details</a>
           </div>
         {% endwith %}
       </div>

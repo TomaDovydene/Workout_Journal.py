@@ -5,33 +5,40 @@ from django.urls import reverse
 from PIL import Image
 
 # Create your models here.
+class ExerciseName(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    pic = models.ImageField(verbose_name='Pic', upload_to='pics', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Exercise(models.Model):
     athlete = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
     workout = models.ForeignKey(to='Workout', verbose_name='Workout', on_delete=models.SET_NULL, null=True, related_name='exercises')
-    pic = models.ImageField(verbose_name='Pic', upload_to='pics', null=True, blank=True)
+
     set = models.IntegerField(verbose_name='Set', null=True, blank=True)
     rep = models.IntegerField(verbose_name='Rep', null=True, blank=True)
     weight = models.FloatField(verbose_name='Weight', null=True, blank=True)
 
 
-    EXERCISES_LIST = (
-        ('Pull Ups', 'Pull Ups'),
-        ('Dips', 'Dips'),
-        ('Biceps', 'Biceps'),
-    )
+    # EXERCISES_LIST = (
+    #     ('Pull Ups', 'Pull Ups'),
+    #     ('Dips', 'Dips'),
+    #     ('Biceps', 'Biceps'),
+    # )
 
-    exercise_name = models.CharField(
-        max_length=100,
-        choices=EXERCISES_LIST,
-        blank=True,
-        null=True,
-    )
-
-    custom_exercises = models.ManyToManyField(User, related_name='custom_exercises', blank=True)
+    # exercise_name = models.CharField(
+    #     max_length=100,
+    #     choices=EXERCISES_LIST,
+    #     blank=True,
+    #     null=True,
+    # )
+    exercise_name = models.ForeignKey(to='ExerciseName', on_delete=models.SET_NULL, null=True, blank=True)
+    custom_exercises = models.ManyToManyField(to=User, related_name='custom_exercises', blank=True)
 
     def __str__(self):
-        return self.exercise_name
+        return self.exercise_name.name
 
 
     # def total(self):

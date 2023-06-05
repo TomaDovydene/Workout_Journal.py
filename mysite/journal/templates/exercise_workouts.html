@@ -6,17 +6,17 @@
 
 {% block "content" %}
 
-<h1>{{ exercise_name }} information</h1>
+<h1>{{ exercise_name.name }} information</h1>
 
 {% load static %}
-{% if exercise.pic %}
-<img src="{{ exercise.pic.url }}" style="margin-bottom: 20px; max-width: 20%">
+{% if exercise_name.pic %}
+<img src="{{ exercise_name.pic.url }}" style="margin-bottom: 20px; max-width: 20%">
 {% else %}
 <img src="{% static 'img/no-image.png' %}" class="card-img-top" style="width:200px;height:200px;">
 {% endif %}
 
 
-<form method="GET" action="{% url 'exercise_workouts' exercise_name %}">
+<form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}">
     <div class="search-container">
         <input type="text" name="search" placeholder="Search...">
         <button type="submit">Search</button>
@@ -38,11 +38,11 @@
     </tr>
     </thead>
 
-    <tbody>
+     <tbody>
     {% for workout, info in workout_info.items %}
     {% for exercise in info.exercises %}
     <tr>
-        <td>{{ workout.title }}</td>
+        <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
         <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
         <td>{{ exercise.set }} sets</td>

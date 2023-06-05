@@ -1,14 +1,14 @@
 from django.contrib import admin
-from . import models
+from .models import Exercise, Profile, ExerciseName
 
 
 
 # Register your models here.
-class ExerciseAdmin(admin.ModelAdmin):
-    def get_fields(self, request, obj=None):
-        return ['exercise_name', 'pic']
+# class ExerciseAdmin(admin.ModelAdmin):
+#     list_display = ['exercise_name', 'pic']
 
-
+class ExerciseNameAdmin(admin.ModelAdmin):
+    list_display = ['name', 'pic']
 
     # list_display = ['exercise_name']
 
@@ -31,9 +31,10 @@ class ExerciseAdmin(admin.ModelAdmin):
     # inlines = [ExercisesInline]
 
 
-admin.site.register(models.Exercise, ExerciseAdmin)
+# admin.site.register(Exercise, ExerciseAdmin)
+admin.site.register(ExerciseName, ExerciseNameAdmin)
 # admin.site.register(models.Workout, WorkoutAdmin)
-admin.site.register(models.Profile)
+admin.site.register(Profile)
 
 
 
