@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block "title" %}Personal Records by Reps{% endblock %}
+
+{% block "content" %}
+
+{% load static %}
+
+<h1>Personal Records by Reps</h1>
+
+<br>
+<form method="GET" action="{% url 'personal_records_by_reps' %}">
+  <input type="text" name="query" placeholder="Search..." value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+<br>
+
+<table class="table table-bordered table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>Exercise Name</th>
+      <th>Workout Title</th>
+      <th>Workout Date</th>
+      <th>Exercise Weight</th>
+      <th>Exercise Sets</th>
+      <th>Exercise Reps</th>
+      <th>Exercise Volume</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for exercise_name, workouts in top_rep_workouts.items %}
+      {% for workout, exercise in workouts %}
+        <tr>
+          <td>{{ exercise_name }}</td>
+          <td>{{ workout.title }}</td>
+          <td>{{ workout.date|date:'Y-m-d' }}</td>
+          <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
+          <td>{{ exercise.set }} sets</td>
+          <td>{{ exercise.rep }} reps</td>
+          <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">No workouts found.</td>
+        </tr>
+      {% endfor %}
+    {% empty %}
+      <tr>
+        <td colspan="7">No workouts found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

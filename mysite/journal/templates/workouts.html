@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block "title" %}Workouts{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+{% block "content" %}
+
+{% load static %}
+
+<h1>Calendar</h1>
+
+<h1>Workouts List:</h1>
+
+<br>
+<form method="GET" action="{% url 'workouts' %}">
+  <input type="text" name="query" placeholder="Search..." value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+<br>
+
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th class="sortable" data-column="title">Workout Title<span class="sort-icon"></span></th>
+        <th class="sortable" data-column="date">Workout Date<span class="sort-icon"></span></th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for workout in workouts %}
+    <tr>
+        <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
+        <td>{{ workout.date|date:'Y-m-d' }}</td>
+        <td><a href="{% url 'edit_workout' workout.id %}" class="btn btn-secondary">Edit</a></td>
+        <td><a href="{% url 'delete_workout' workout.id %}" class="btn btn-danger">Delete</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No workouts found.</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'add_workout' %}" class="btn btn-primary">Add Workout</a>
+
+
+<script src="{% static 'js/sort-workouts_table.js' %}"></script>
+
+<style>
+    .sort-icon {
+  display: inline;
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  margin-bottom: -2px;
+  border-top: 4px solid #fff;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  color: red;
+}
+</style>
+
+{% endblock %}

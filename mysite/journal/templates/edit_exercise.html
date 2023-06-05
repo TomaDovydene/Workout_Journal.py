@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block "title" %}Edit Exercise{% endblock %}
+
+{% block "content" %}
+<h2>Edit Exercise</h2>
+<form method="post">
+  {% csrf_token %}
+  <label for="weight">Weight:</label>
+  <input type="text" id="weight" name="weight" value="{{ exercise.weight }}">
+
+  <label for="set">Set:</label>
+  <input type="text" id="set" name="set" value="{{ exercise.set }}">
+
+  <label for="rep">Rep:</label>
+  <input type="text" id="rep" name="rep" value="{{ exercise.rep }}">
+
+  <br><br>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+{% endblock %}
