@@ -7,6 +7,12 @@
 {% load static %}
 
 <h1>Exercises list:</h1>
+
+<form method="GET" action="{% url 'exercises' %}" class="mb-3">
+  <input type="text" name="query" placeholder="Enter exercise name" value="{{ request.GET.q }}">
+  <button type="submit">Search</button>
+</form>
+
 {% if exercises %}
 <div class="row">
   {% for exercise_group in exercises %}

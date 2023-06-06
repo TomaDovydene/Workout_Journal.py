@@ -188,7 +188,14 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
     template_name = 'exercises.html'
 
     def get_queryset(self):
-        return Exercise.objects.filter(athlete=self.request.user)
+        query = self.request.GET.get('query')
+        queryset = Exercise.objects.filter(athlete=self.request.user)
+
+        if query:
+            # Filter exercises by exercise name containing the search query
+            queryset = queryset.filter(exercise_name__name__icontains=query)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -241,9 +248,6 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.user = self.request.user
-
-
-
         return form
 
     def test_func(self):
@@ -304,55 +308,6 @@ class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
         workout_id = self.kwargs['workout_id']
         return reverse_lazy('add_exercise', kwargs={'workout_id': workout_id})
 
-
-
-
-# def exercise_workouts(request, exercise_name_id):
-#     exercise_name = ExerciseName.objects.get(id=exercise_name_id)
-#
-#     query = request.GET.get('query')
-#
-#     # Get the sorting parameter from the request
-#     sort_by = request.GET.get('sort')
-#
-#     # Filter the workouts based on the exercise_name
-#     workouts = Workout.objects.filter(exercises__exercise_name=exercise_name)
-#
-#     if query:
-#         workouts = workouts.filter(
-#             Q(title__icontains=query) |
-#             Q(date__icontains=query)
-#         )
-#
-#     # Create a dictionary to store workout information
-#     workout_info = []
-#
-#     # Iterate over the filtered workouts
-#     for workout in workouts:
-#         # Get the exercises for the current workout and exercise name
-#         exercises = workout.exercises.filter(exercise_name=exercise_name)
-#
-#         # Calculate the total weight for the exercise in the workout
-#         total_weight = exercises.aggregate(Sum('weight'))['weight__sum']
-#
-#         # Store the workout information in the list
-#         workout_info.append({
-#             'workout': workout,
-#             'total_weight': total_weight,
-#             'exercises': exercises
-#         })
-#
-#     # Sort the workouts based on the sorting parameter
-#     if sort_by == 'weight':
-#         workout_info.sort(key=lambda x: x['total_weight'], reverse=True)
-#
-#     context = {
-#         'workout_info': workout_info,
-#         'exercise_name': exercise_name,
-#         'query': query if query else '',
-#     }
-#
-#     return render(request, 'exercise_workouts.html', context=context)
 
 
 @login_required
