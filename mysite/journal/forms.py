@@ -28,17 +28,6 @@ class WorkoutForm(forms.ModelForm):
         }
 
 
-class ExerciseNameChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return obj.name
-
-class ExerciseNameWidget(forms.Select):
-    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-        option = super().create_option(name, value, label, selected, index, subindex, attrs)
-        if value:
-            option['attrs']['data-athlete'] = str(self.choices.queryset[index].athlete_id)
-        return option
-
 class ExerciseForm(forms.ModelForm):
     custom_exercise_name = forms.CharField(max_length=100, required=False)
 
@@ -47,8 +36,13 @@ class ExerciseForm(forms.ModelForm):
         fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        self.user = kwargs.pop('user')  # Retrieve the 'user' argument from kwargs
         super().__init__(*args, **kwargs)
+
+        # Filter exercise name choices based on custom exercises added by the user and exercise names created by the superuser
+        self.fields['exercise_name'].queryset = ExerciseName.objects.filter(
+            Q(created_by__isnull=True) | Q(created_by=self.user) | Q(created_by_id=1)
+        )
 
     def clean(self):
         cleaned_data = super().clean()
@@ -65,14 +59,26 @@ class ExerciseForm(forms.ModelForm):
         custom_exercise_name = self.cleaned_data.get('custom_exercise_name')
 
         if custom_exercise_name:
-            exercise_name, _ = ExerciseName.objects.get_or_create(name=custom_exercise_name)
+            exercise_name, _ = ExerciseName.objects.get_or_create(name=custom_exercise_name, created_by=self.user)
             exercise.exercise_name = exercise_name
-            exercise.custom_exercises.add(self.user)
 
         if commit:
             exercise.save()
 
         return exercise
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

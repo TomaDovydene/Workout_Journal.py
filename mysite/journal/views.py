@@ -241,6 +241,9 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.user = self.request.user
+
+
+
         return form
 
     def test_func(self):
@@ -293,7 +296,7 @@ class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
         return context
     def form_valid(self, form):
         exercise_name = form.save(commit=False)
-        exercise_name.athlete = self.request.user
+        exercise_name.created_by = None  # Set created_by to None for exercise names created by superuser
         exercise_name.save()
         return super().form_valid(form)
 
