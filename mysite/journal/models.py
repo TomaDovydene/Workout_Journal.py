@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -14,26 +15,11 @@ class ExerciseName(models.Model):
 
 
 class Exercise(models.Model):
-    athlete = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
+    athlete = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     workout = models.ForeignKey(to='Workout', verbose_name='Workout', on_delete=models.SET_NULL, null=True, related_name='exercises')
-
     set = models.IntegerField(verbose_name='Set', null=True, blank=True)
     rep = models.IntegerField(verbose_name='Rep', null=True, blank=True)
     weight = models.FloatField(verbose_name='Weight', null=True, blank=True)
-
-
-    # EXERCISES_LIST = (
-    #     ('Pull Ups', 'Pull Ups'),
-    #     ('Dips', 'Dips'),
-    #     ('Biceps', 'Biceps'),
-    # )
-
-    # exercise_name = models.CharField(
-    #     max_length=100,
-    #     choices=EXERCISES_LIST,
-    #     blank=True,
-    #     null=True,
-    # )
     exercise_name = models.ForeignKey(to='ExerciseName', on_delete=models.SET_NULL, null=True, blank=True)
     custom_exercises = models.ManyToManyField(to=User, related_name='custom_exercises', blank=True)
 
@@ -61,7 +47,7 @@ class Exercise(models.Model):
 
 
 class Workout(models.Model):
-    athlete = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
+    athlete = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(verbose_name="Title", max_length=100)
     date = models.DateField(verbose_name="Date", null=True, blank=True)
 

@@ -1,6 +1,7 @@
 from .models import Profile, Workout, Exercise, ExerciseName
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -20,24 +21,62 @@ class ProfileUpdateForm(forms.ModelForm):
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = ['athlete', 'title', 'date']
+        fields = ['title', 'date']
 
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 
+class ExerciseNameChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name
+
+class ExerciseNameWidget(forms.Select):
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super().create_option(name, value, label, selected, index, subindex, attrs)
+        if value:
+            option['attrs']['data-athlete'] = str(self.choices.queryset[index].athlete_id)
+        return option
+
 class ExerciseForm(forms.ModelForm):
     custom_exercise_name = forms.CharField(max_length=100, required=False)
 
     class Meta:
         model = Exercise
-        fields = ['custom_exercise_name', 'weight', 'set', 'rep']
+        fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep']
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        exercise_choices = [(name.id, name.name) for name in ExerciseName.objects.all()]
-        self.fields['exercise_name'] = forms.ChoiceField(choices=exercise_choices, required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        exercise_name = cleaned_data.get('exercise_name')
+        custom_exercise_name = cleaned_data.get('custom_exercise_name')
+
+        if not exercise_name and not custom_exercise_name:
+            raise forms.ValidationError('Please select an exercise name or enter a custom exercise name.')
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        exercise = super().save(commit=False)
+        custom_exercise_name = self.cleaned_data.get('custom_exercise_name')
+
+        if custom_exercise_name:
+            exercise_name, _ = ExerciseName.objects.get_or_create(name=custom_exercise_name)
+            exercise.exercise_name = exercise_name
+            exercise.custom_exercises.add(self.user)
+
+        if commit:
+            exercise.save()
+
+        return exercise
+
+
+
+
 
 
 

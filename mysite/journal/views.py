@@ -1,8 +1,10 @@
 import itertools
 
+import self as self
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 
 from .models import Exercise, Workout, ExerciseName
 from django.views import generic
@@ -14,10 +16,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, WorkoutForm, ExerciseForm
 from django.db.models import Count, Sum, Q, Max
+from django.contrib.auth import logout
+
+
 
 
 # Create your views here.
-
+# def logout_view(request):
+#     logout(request)
+#     return redirect('index')
 
 @csrf_protect
 def register(request):
@@ -71,25 +78,31 @@ def profile(request):
 
 
 def index(request):
-    num_exercises = Exercise.objects.all().count()
+    return render(request, 'index.html')
 
-    num_workouts = Workout.objects.count()
+@login_required
+def calendar(request):
+    user = request.user
 
-    num_visits = request.session.get('num_visits', 1)
-    request.session['num_visits'] = num_visits + 1
+    num_exercises = Exercise.objects.filter(athlete=user).count()
+
+    num_workouts = Workout.objects.filter(athlete=user).count()
+
+    num_visits = request.session.get(f'num_visits_{user.id}', 1)
+    request.session[f'num_visits_{user.id}'] = num_visits + 1
 
     context = {
         'num_exercises': num_exercises,
         'num_workouts': num_workouts,
         'num_visits': num_visits,
     }
-    return render(request, 'index.html', context=context)
+    return render(request, 'calendar.html', context=context)
 
-
+@login_required
 def workouts(request):
     query = request.GET.get('query')
     sort_by = request.GET.get('sort')
-    workouts = Workout.objects.all()
+    workouts = Workout.objects.filter(athlete=request.user)
 
     if query:
         workouts = workouts.filter(Q(title__icontains=query) | Q(date__icontains=query))
@@ -108,19 +121,23 @@ def workouts(request):
     return render(request, 'workouts.html', context=context)
 
 
+@login_required
 def workout(request, workout_id):
-    workout = get_object_or_404(Workout, pk=workout_id)
+    workout = get_object_or_404(Workout, pk=workout_id, athlete=request.user)
     context = {
         'workout': workout,
     }
     return render(request, 'workout.html', context=context)
 
 
+@login_required
 def add_workout(request):
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
         if form.is_valid():
-            workout = form.save()
+            workout = form.save(commit=False)
+            workout.athlete = request.user
+            workout.save()
             return redirect('workout', workout_id=workout.id)
     else:
         form = WorkoutForm()
@@ -131,8 +148,9 @@ def add_workout(request):
     return render(request, 'add_workout.html', context=context)
 
 
+@login_required
 def edit_workout(request, workout_id):
-    workout = get_object_or_404(Workout, pk=workout_id)
+    workout = get_object_or_404(Workout, pk=workout_id, athlete=request.user)
 
     if request.method == 'POST':
         form = WorkoutForm(request.POST, instance=workout)
@@ -148,8 +166,10 @@ def edit_workout(request, workout_id):
     }
     return render(request, 'edit_workout.html', context=context)
 
+
+@login_required
 def delete_workout(request, workout_id):
-    workout = get_object_or_404(Workout, pk=workout_id)
+    workout = get_object_or_404(Workout, pk=workout_id, athlete=request.user)
 
     if request.method == 'POST':
         workout.delete()
@@ -161,16 +181,17 @@ def delete_workout(request, workout_id):
     return render(request, 'delete_workout.html', context=context)
 
 
-
-
+@method_decorator(login_required, name='dispatch')
 class ExerciseListView(LoginRequiredMixin, generic.ListView):
     model = Exercise
     context_object_name = 'exercises'
     template_name = 'exercises.html'
 
+    def get_queryset(self):
+        return Exercise.objects.filter(athlete=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         exercises = context['exercises']
 
         # Exclude exercises without exercise names
@@ -188,8 +209,9 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+@login_required
 def edit_exercise(request, exercise_id):
-    exercise = get_object_or_404(Exercise, id=exercise_id)
+    exercise = get_object_or_404(Exercise, id=exercise_id, athlete=request.user)
 
     if request.method == 'POST':
         exercise.weight = request.POST['weight']
@@ -200,8 +222,9 @@ def edit_exercise(request, exercise_id):
     return render(request, 'edit_exercise.html', {'exercise': exercise})
 
 
+@login_required
 def delete_exercise(request, exercise_id):
-    exercise = get_object_or_404(Exercise, id=exercise_id)
+    exercise = get_object_or_404(Exercise, id=exercise_id, athlete=request.user)
 
     if request.method == 'POST':
         exercise.delete()
@@ -209,11 +232,29 @@ def delete_exercise(request, exercise_id):
     return render(request, 'delete_exercise.html', {'exercise': exercise})
 
 
-
-class AddExerciseCreateView(LoginRequiredMixin, generic.CreateView):
+@method_decorator(login_required, name='dispatch')
+class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Exercise
     template_name = 'add_exercise.html'
     form_class = ExerciseForm
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.user = self.request.user
+        return form
+
+    def test_func(self):
+        workout = get_object_or_404(Workout, pk=self.kwargs['workout_id'])
+        return workout.athlete == self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the current user to the form
+        return kwargs
 
     def form_valid(self, form):
         form.instance.athlete = self.request.user
@@ -223,11 +264,14 @@ class AddExerciseCreateView(LoginRequiredMixin, generic.CreateView):
         workout = get_object_or_404(Workout, pk=workout_id)
 
         if exercise_name_id:
-            form.instance.exercise_name_id = exercise_name_id
+            form.instance.exercise_name = exercise_name_id
         elif custom_exercise_name:
+            exercise = form.save(commit=False)
+            exercise.save()
             custom_exercise, _ = ExerciseName.objects.get_or_create(name=custom_exercise_name)
-            form.instance.exercise_name = custom_exercise
-            form.instance.custom_exercises.add(self.request.user)
+            exercise.exercise_name = custom_exercise
+            exercise.save()
+            exercise.custom_exercises.add(self.request.user)
 
         form.instance.workout = workout
         return super().form_valid(form)
@@ -237,22 +281,26 @@ class AddExerciseCreateView(LoginRequiredMixin, generic.CreateView):
         return reverse_lazy('workout', kwargs={'workout_id': workout_id})
 
 
+@method_decorator(login_required, name='dispatch')
 class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
-    model = Exercise
-    fields = ['exercise_name', 'weight', 'set', 'rep']
+    model = ExerciseName
+    fields = ['name']
     template_name = 'add_custom_exercise.html'
-
-    def get_success_url(self):
-        workout_id = self.kwargs['workout_id']
-        return reverse_lazy('workout', kwargs={'workout_id': workout_id})
-
-
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context['form'] = self.get_form()
         return context
+    def form_valid(self, form):
+        exercise_name = form.save(commit=False)
+        exercise_name.athlete = self.request.user
+        exercise_name.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        workout_id = self.kwargs['workout_id']
+        return reverse_lazy('add_exercise', kwargs={'workout_id': workout_id})
+
 
 
 
@@ -304,6 +352,7 @@ class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
 #     return render(request, 'exercise_workouts.html', context=context)
 
 
+@login_required
 def exercise_workouts(request, exercise_name_id):
     # Clean up exercise_name by stripping whitespace
 
@@ -314,7 +363,9 @@ def exercise_workouts(request, exercise_name_id):
     sort_by = request.GET.get('sort')
 
     # Filter the workouts based on the exercise_name
-    workouts = Workout.objects.filter(exercises__exercise_name__exact=exercise_name).distinct()
+    workouts = Workout.objects.filter(
+        athlete=request.user,
+        exercises__exercise_name__exact=exercise_name).distinct()
 
     if query:
         workouts = workouts.filter(
@@ -352,9 +403,10 @@ def exercise_workouts(request, exercise_name_id):
     return render(request, 'exercise_workouts.html', context=context)
 
 
+@login_required
 def personal_records_by_weight(request):
     query = request.GET.get('query')
-    exercises = Exercise.objects.all()
+    exercises = Exercise.objects.filter(athlete=request.user)
 
     if query:
         exercises = exercises.filter(
@@ -365,13 +417,17 @@ def personal_records_by_weight(request):
 
     for exercise in exercises:
         if exercise.exercise_name:  # Check if exercise has a non-null exercise_name
-            workouts = Workout.objects.filter(exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
+            workouts = Workout.objects.filter(
+                athlete=request.user,
+                exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
                 max_weight=Max('exercises__weight')).order_by('-max_weight')[:3]
 
             top_weight_workouts[exercise.exercise_name.name] = []
 
             for workout in workouts:
-                exercise_instance = workout.exercises.filter(exercise_name__name__icontains=exercise.exercise_name.name).order_by('-weight').first()
+                exercise_instance = workout.exercises.filter(
+                    athlete=request.user,
+                    exercise_name__name__icontains=exercise.exercise_name.name).order_by('-weight').first()
 
                 if exercise_instance:
                     top_weight_workouts[exercise.exercise_name.name].append((workout, exercise_instance))
@@ -379,16 +435,16 @@ def personal_records_by_weight(request):
     context = {
         'top_weight_workouts': top_weight_workouts,
         'query': query if query else '',
-        'all_exercises': Exercise.objects.values_list('exercise_name__name', flat=True).distinct()
+        'all_exercises': Exercise.objects.filter(athlete=request.user).values_list('exercise_name__name', flat=True).distinct()
     }
 
     return render(request, 'personal_records_by_weight.html', context=context)
 
 
-
+@login_required
 def personal_records_by_reps(request):
     query = request.GET.get('query')
-    exercises = Exercise.objects.all()
+    exercises = Exercise.objects.filter(athlete=request.user)
 
     if query:
         exercises = exercises.filter(
@@ -399,13 +455,17 @@ def personal_records_by_reps(request):
 
     for exercise in exercises:
         if exercise.exercise_name:  # Check if exercise has a non-null exercise_name
-            workouts = Workout.objects.filter(exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
+            workouts = Workout.objects.filter(
+                athlete=request.user,
+                exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
                 max_rep=Max('exercises__rep')).order_by('-max_rep')[:3]
 
             top_rep_workouts[exercise.exercise_name.name] = []
 
             for workout in workouts:
-                exercise_instance = workout.exercises.filter(exercise_name__name__icontains=exercise.exercise_name.name).order_by('-rep').first()
+                exercise_instance = workout.exercises.filter(
+                    athlete=request.user,
+                    exercise_name__name__icontains=exercise.exercise_name.name).order_by('-rep').first()
 
                 if exercise_instance:
                     top_rep_workouts[exercise.exercise_name.name].append((workout, exercise_instance))
