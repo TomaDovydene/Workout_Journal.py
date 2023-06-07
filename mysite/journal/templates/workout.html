@@ -44,16 +44,7 @@
         <br>
         <a href="{% url 'add_exercise' workout.id %}" class="btn btn-primary">Add Exercise</a>
     </div>
-<br>
-<hr>
-<h1>Add Custom Exercise:</h1>
-<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'add_custom_exercise' workout.id %}">Add Custom Exercise</a>
-<br>
-<br>
-{% for exercise in exercises %}
-<p><a href="#">{{ exercise }}</a></p>
-<hr>
-{% endfor %}
+
 
 {% endblock %}
 

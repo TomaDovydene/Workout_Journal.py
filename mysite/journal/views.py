@@ -3,7 +3,7 @@ import itertools
 import self as self
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 
 from .models import Exercise, Workout, ExerciseName
@@ -17,6 +17,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, WorkoutForm, ExerciseForm
 from django.db.models import Count, Sum, Q, Max
 from django.contrib.auth import logout
+
+from datetime import date, timedelta
+from calendar import monthrange
+import calendar
+from dateutil.relativedelta import relativedelta
+
+
+
 
 
 
@@ -81,7 +89,7 @@ def index(request):
     return render(request, 'index.html')
 
 @login_required
-def calendar(request):
+def summary(request):
     user = request.user
 
     num_exercises = Exercise.objects.filter(athlete=user).count()
@@ -96,7 +104,7 @@ def calendar(request):
         'num_workouts': num_workouts,
         'num_visits': num_visits,
     }
-    return render(request, 'calendar.html', context=context)
+    return render(request, 'summary.html', context=context)
 
 @login_required
 def workouts(request):
@@ -288,25 +296,25 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
         return reverse_lazy('workout', kwargs={'workout_id': workout_id})
 
 
-@method_decorator(login_required, name='dispatch')
-class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
-    model = ExerciseName
-    fields = ['name']
-    template_name = 'add_custom_exercise.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.get_form()
-        return context
-    def form_valid(self, form):
-        exercise_name = form.save(commit=False)
-        exercise_name.created_by = None  # Set created_by to None for exercise names created by superuser
-        exercise_name.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        workout_id = self.kwargs['workout_id']
-        return reverse_lazy('add_exercise', kwargs={'workout_id': workout_id})
+# @method_decorator(login_required, name='dispatch')
+# class CustomExerciseCreateView(LoginRequiredMixin, generic.CreateView):
+#     model = ExerciseName
+#     fields = ['name']
+#     template_name = 'add_custom_exercise.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['form'] = self.get_form()
+#         return context
+#     def form_valid(self, form):
+#         exercise_name = form.save(commit=False)
+#         exercise_name.created_by = None  # Set created_by to None for exercise names created by superuser
+#         exercise_name.save()
+#         return super().form_valid(form)
+#
+#     def get_success_url(self):
+#         workout_id = self.kwargs['workout_id']
+#         return reverse_lazy('add_exercise', kwargs={'workout_id': workout_id})
 
 
 
@@ -434,4 +442,57 @@ def personal_records_by_reps(request):
     }
 
     return render(request, 'personal_records_by_reps.html', context=context)
+
+
+@login_required
+def workout_calendar(request, year):
+    current_date = date(year, 1, 1)
+    calendar_months = []
+
+    for _ in range(12):
+        workouts = Workout.objects.filter(athlete=request.user, date__year=current_date.year,
+                                          date__month=current_date.month)
+        month_days = []
+
+        # Get the starting day and the number of days in the month
+        _, days_in_month = calendar.monthrange(current_date.year, current_date.month)
+
+        # Calculate the number of empty cells before the starting day
+        starting_day = calendar.weekday(current_date.year, current_date.month, 1)
+        num_empty_cells = starting_day
+
+        # Calculate the total number of cells required in the table
+        total_cells = num_empty_cells + days_in_month
+
+        # Calculate the number of rows needed in the table
+        num_rows = total_cells // 7 + 1
+
+        # Populate the month_days list with empty cells before the starting day
+        month_days.extend([('', False)] * num_empty_cells)
+
+        for day in range(1, days_in_month + 1):
+            is_marked = workouts.filter(date__day=day).exists()
+            month_days.append((day, is_marked))
+
+        # Add empty cells to complete the table rows
+        remaining_cells = num_rows * 7 - len(month_days)
+        month_days.extend([('', False)] * remaining_cells)
+
+        # Create a list of rows containing 7-day chunks from month_days
+        rows = [month_days[i:i + 7] for i in range(0, len(month_days), 7)]
+
+        calendar_months.append({
+            'month': current_date.strftime('%B'),
+            'year': current_date.year,
+            'rows': rows
+        })
+
+        current_date = current_date.replace(day=1) + relativedelta(months=1)
+
+    context = {
+        'calendar_months': calendar_months,
+    }
+
+    return render(request, 'workout_calendar.html', context=context)
+
 
