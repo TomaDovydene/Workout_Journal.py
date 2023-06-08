@@ -23,9 +23,10 @@ class Exercise(models.Model):
     weight = models.FloatField(verbose_name='Weight', null=True, blank=True)
     exercise_name = models.ForeignKey(to='ExerciseName', on_delete=models.SET_NULL, null=True, blank=True)
     custom_exercises = models.ManyToManyField(to=User, related_name='custom_exercises', blank=True)
+    notes = models.TextField(verbose_name='Notes', null=True, blank=True)
 
     def __str__(self):
-        return self.exercise_name.name
+        return self.exercise_name.name if self.exercise_name else ''
 
 
     # def total(self):

@@ -35,6 +35,7 @@
         <th class="sortable" data-column="set">Exercise Sets<span class="sort-icon"></span></th>
         <th class="sortable" data-column="rep">Exercise Reps<span class="sort-icon"></span></th>
         <th class="sortable" data-column="sum">Exercise Volume<span class="sort-icon"></span></th>
+        <th>Notes</th>
     </tr>
     </thead>
 
@@ -48,6 +49,7 @@
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>
         <td>{{ exercise.sum|stringformat:".2f"  }} kg</td>
+        <td>{{ exercise.notes }}</td>
     </tr>
     {% endfor %}
     {% empty %}

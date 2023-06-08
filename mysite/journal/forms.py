@@ -29,10 +29,11 @@ class WorkoutForm(forms.ModelForm):
 
 class ExerciseForm(forms.ModelForm):
     custom_exercise_name = forms.CharField(max_length=100, required=False)
+    notes = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
 
     class Meta:
         model = Exercise
-        fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep']
+        fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep', 'notes']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')  # Retrieve the 'user' argument from kwargs
