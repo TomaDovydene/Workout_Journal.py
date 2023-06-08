@@ -28,6 +28,7 @@
     <tr>
         <th class="sortable" data-column="title">Workout Title<span class="sort-icon"></span></th>
         <th class="sortable" data-column="date">Workout Date<span class="sort-icon"></span></th>
+        <td>Notes</td>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -37,6 +38,7 @@
     <tr>
         <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
+        <td>{{ workout.notes }}</td>
         <td><a href="{% url 'edit_workout' workout.id %}" class="btn btn-secondary">Edit</a></td>
         <td><a href="{% url 'delete_workout' workout.id %}" class="btn btn-danger">Delete</a></td>
     </tr>

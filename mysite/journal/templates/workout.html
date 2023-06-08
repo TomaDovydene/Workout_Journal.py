@@ -7,8 +7,9 @@
 
     <div>
 <ul>
-   <li><strong>Workout title - </strong>{{ workout.title }}</li>
-   <li><strong>Workout date - </strong>{{ workout.date|date:'Y-m-d' }}</li>
+   <li><strong>Workout Title - </strong>{{ workout.title }}</li>
+   <li><strong>Workout Date - </strong>{{ workout.date|date:'Y-m-d' }}</li>
+   <li><strong>Workout Notes - </strong>{{ workout.notes }}</li>
 </ul>
     <hr>
 <h1>Completed exercises in workout:</h1>
@@ -26,7 +27,9 @@
   <tbody>
     {% for exercise in workout.exercises.all %}
       <tr>
-        <td>{{ exercise.get_name }}</td>
+        <td>
+        <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise.get_name }}</a>
+      </td>
         <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>

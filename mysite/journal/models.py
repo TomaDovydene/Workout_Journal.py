@@ -51,6 +51,7 @@ class Workout(models.Model):
     athlete = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(verbose_name="Title", max_length=100)
     date = models.DateField(verbose_name="Date", null=True, blank=True)
+    notes = models.TextField(verbose_name="Notes", null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('workout', args=[str(self.id)])

@@ -21,8 +21,7 @@ class ProfileUpdateForm(forms.ModelForm):
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = ['title', 'date']
-
+        fields = ['title', 'date', 'notes']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -66,22 +65,6 @@ class ExerciseForm(forms.ModelForm):
             exercise.save()
 
         return exercise
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
