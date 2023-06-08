@@ -64,7 +64,7 @@ class Workout(models.Model):
         ordering = ['-date']
 
     def display_exercises(self):
-        return ', '.join(exercise.name for exercise in self.exercises.all())
+        return ', '.join(exercise.exercise_name.name for exercise in self.exercises.all())
 
     display_exercises.short_description = 'Exercises'
 

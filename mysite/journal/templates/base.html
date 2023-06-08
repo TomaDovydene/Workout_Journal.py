@@ -34,14 +34,13 @@
             </div>
 
                 {{ user.get_username }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'summary' %}">Summary</a></li>
+
             <li class="nav-item"><a class="nav-link" href="{% url 'workouts' %}">Workouts</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'exercises' %}">Exercises</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'workout_calendar' year=2023 %}">Workout Calendar</a></li>
-            <li class="nav-item"><a class="nav-link" href="">Bodyweight</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="{% url 'workout_summary_calendar' year=2023 %}">Workout Summary Calendar</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'personal_records_by_weight' %}">PR by WEIGHT</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'personal_records_by_reps' %}">PR by REPS</a></li>
-            <li class="nav-item"><a class="nav-link" href="">Personal goals</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next=/journal">Logout</a></li>
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}?next=/journal">Login</a></li>

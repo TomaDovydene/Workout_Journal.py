@@ -2,11 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('workouts/', views.workouts, name='workouts'),
-    path('workouts/<int:workout_id>', views.workout, name='workout'),
+    path('workouts/<int:workout_id>/', views.workout, name='workout'),
     path('exercises/', views.ExerciseListView.as_view(), name='exercises'),
     path('exercise/<int:exercise_id>/edit/', views.edit_exercise, name='edit_exercise'),
     path('exercise/<int:exercise_id>/delete/', views.delete_exercise, name='delete_exercise'),
@@ -21,6 +22,5 @@ urlpatterns = [
     path('exercise_workouts/<str:exercise_name_id>/', views.exercise_workouts, name='exercise_workouts'),
     path('personal-records-by-weight/', views.personal_records_by_weight, name='personal_records_by_weight'),
     path('personal-records-by-reps/', views.personal_records_by_reps, name='personal_records_by_reps'),
-    path('summary/', views.summary, name='summary'),
-    path('workout-calendar/<int:year>/', views.workout_calendar, name='workout_calendar'),
+    path('workouts-calendar/<int:year>/', views.workout_summary_calendar, name='workout_summary_calendar'),
 ]

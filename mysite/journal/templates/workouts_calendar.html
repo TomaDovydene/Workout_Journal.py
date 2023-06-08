@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block "title" %}Calendar{% endblock %}
+
+{% block "content" %}
+
+<div>
+  <table>
+  <tr>
+    <th class="grey-box">Completed Workouts:</th>
+    <td class="blue-box">
+      <a href="{% url 'workouts' %}">{{ num_workouts }}</a>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;</td>
+    <th class="grey-box">Completed Exercises:</th>
+    <td class="blue-box">
+      <a href="{% url 'exercises' %}">{{ num_exercises }}</a>
+    </td>
+  </tr>
+</table>
+
+  <style>
+.grey-box {
+  background-color: lightgrey;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.blue-box {
+  background-color: lightblue;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+</style>
+
+</div>
+
+
+<hr>
+
+<div>
+  <h1>Workout Calendar {{ calendar_months.0.year }}</h1>
+
+<div class="calendar-grid">
+{% for month in calendar_months %}
+  <div class="calendar-month">
+  <h4>{{ month.month }}</h4>
+  <table>
+    <thead>
+
+      <tr>
+        <th class="weekday">Mon</th>
+        <th class="weekday">Tue</th>
+        <th class="weekday">Wed</th>
+        <th class="weekday">Thu</th>
+        <th class="weekday">Fri</th>
+        <th class="weekday">Sat</th>
+        <th class="weekday">Sun</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for row in month.rows %}
+    <tr>
+      {% for day, is_marked, workout_id in row %}
+        <td class="day-cell">
+          {% if day %}
+            {% if is_marked %}
+              <a href="{% url 'workout' workout_id=workout_id %}?date={{ month.year }}-{{ month.month }}-{{ day }}">{{ day }}</a>
+            {% else %}
+              {{ day }}
+            {% endif %}
+          {% endif %}
+        </td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</tbody>
+
+  </table>
+    </div>
+{% endfor %}
+</div>
+
+<style>
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+  }
+
+  .calendar-month {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .calendar-month h4 {
+    margin: 0;
+    background-color: black;
+    color: white;
+    padding: 10px;
+  }
+
+  .weekday {
+    background-color: #f2f2f2;
+  }
+
+  .weekday {
+    background-color: #f2f2f2;
+  }
+
+  .day-cell {
+    text-align: center;
+    padding: 5px;
+  }
+
+</style>
+
+</div>
+
+
+{% endblock %}
