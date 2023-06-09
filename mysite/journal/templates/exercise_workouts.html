@@ -5,15 +5,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 {% block "content" %}
-
-<h1>{{ exercise_name.name }} information</h1>
-
 {% load static %}
-{% if exercise_name.pic %}
-<img src="{{ exercise_name.pic.url }}" style="margin-bottom: 20px; max-width: 20%">
+
+<h1>
+    {% if exercise_name.pic %}
+<img src="{{ exercise_name.pic.url }}" style="margin-bottom: 10px; max-width: 10%">
 {% else %}
-<img src="{% static 'img/no-image.png' %}" class="card-img-top" style="width:200px;height:200px;">
+<img src="{% static 'img/no-image.png' %}" class="card-img-top" style="width:100px;height:100px;">
 {% endif %}
+    {{ exercise_name.name }} Information</h1>
+
 
 
 <form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}">
