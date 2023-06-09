@@ -7,21 +7,6 @@
 {% block "content" %}
 {% load static %}
 
-<style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #709C8A;
-    }
-</style>
 
 <div class="custom-titles-container">
     <h2>
@@ -33,10 +18,11 @@
         <strong class="custom-titles-heading">{{ exercise_name.name }} Information</strong>
     </h2>
 </div>
+<br>
 
 <form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}">
     <div class="search-container">
-        <input type="text" name="search" placeholder="Search...">
+        <input type="text" name="search" placeholder="Enter date or title">
         <button type="submit">Search</button>
     </div>
 </form>
@@ -45,6 +31,15 @@
 
 
 <table class="table table-bordered table-striped" id="workout-table">
+    <colgroup>
+        <col style="width: 19%;">
+        <col style="width: 15%;">
+        <col style="width: 11%;">
+        <col style="width: 9%;">
+        <col style="width: 10%;">
+        <col style="width: 11%;">
+        <col style="width: 25%;">
+    </colgroup>
     <thead class="table-dark">
     <tr>
         <th class="sortable" data-column="title">Workout Title<span class="sort-icon"></span></th>
@@ -72,7 +67,7 @@
     {% endfor %}
     {% empty %}
     <tr>
-        <td colspan="6">No workouts found.</td>
+        <td colspan="7">No workouts found.</td>
     </tr>
     {% endfor %}
 
@@ -95,7 +90,20 @@
   color: red;
 }
 
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
+    }
 
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #AB982D;
+    }
 
 </style>
 

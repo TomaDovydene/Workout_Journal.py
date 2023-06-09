@@ -7,11 +7,29 @@
 
 {% block "content" %}
 
+<style>
+    .custom-legend {
+        font-family: Times New Roman, serif;
+        font-size: 24px;
+        color: #AB982D;
+        padding-bottom: 1px;
+        margin-bottom: 1px;
+    }
+
+    .custom-line {
+        border: none;
+        border-top: 4px solid #2D40AB;
+        margin: 0;
+    }
+</style>
+
 <div class="content-section">
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Add an Exercise</legend>
+            <legend class="custom-legend">Add an Exercise</legend>
+            <hr class="custom-line">
+            <br>
             {{ form|crispy }}
         </fieldset>
         <div class="form-group">

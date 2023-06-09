@@ -14,13 +14,14 @@
         justify-content: center;
         align-items: center;
         min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
     }
 
     .custom-titles-heading {
         text-align: center;
         font-family: Times New Roman, serif;
         font-size: 35px;
-        color: #709C8A;
+        color: #AB982D;
     }
 </style>
 
@@ -33,19 +34,34 @@
 
 
 <br>
-<form method="GET" action="{% url 'workouts' %}">
+<div style="display: flex; justify-content: space-between;">
+<form method="GET" action="{% url 'workouts' %}" class="search-form">
+    <div class="search-input">
   <input type="text" name="query" placeholder="Enter date or title" value="{{ query }}">
-  <button type="submit">Search</button>
+  </div>
+    <div>
+        <button type="submit">Search</button>
+        </div>
 </form>
+    <div>
+    <a href="{% url 'add_workout' %}" class="btn custom-btn-add">Add Workout</a>
+</div>
+</div>
 <br>
 
-
 <table class="table table-bordered table-striped">
+    <colgroup>
+        <col style="width: 28%;">
+        <col style="width: 25%;">
+        <col style="width: 37%;">
+        <col style="width: 4%;">
+        <col style="width: 6%;">
+    </colgroup>
     <thead class="table-dark">
     <tr>
         <th class="sortable" data-column="title">Workout Title<span class="sort-icon"></span></th>
         <th class="sortable" data-column="date">Workout Date<span class="sort-icon"></span></th>
-        <td>Notes</td>
+        <th>Notes</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -56,18 +72,16 @@
         <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
         <td>{{ workout.notes }}</td>
-        <td><a href="{% url 'edit_workout' workout.id %}" class="btn btn-secondary">Edit</a></td>
-        <td><a href="{% url 'delete_workout' workout.id %}" class="btn btn-danger">Delete</a></td>
+        <td><a href="{% url 'edit_workout' workout.id %}" class="btn custom-btn-edit">Edit</a></td>
+        <td><a href="{% url 'delete_workout' workout.id %}" class="btn custom-btn-delete">Delete</a></td>
     </tr>
     {% empty %}
     <tr>
-      <td colspan="4">No workouts found.</td>
+      <td colspan="5">No workouts found.</td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'add_workout' %}" class="btn btn-primary">Add Workout</a>
-
 
 <script src="{% static 'js/sort-workouts_table.js' %}"></script>
 
@@ -83,6 +97,35 @@
   border-left: 4px solid transparent;
   color: red;
 }
+
+    .custom-btn-add {
+  background-color: #7B91C6;
+  border-color: #7B91C6;
+  color: white;
+    }
+
+    .search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .search-input {
+    margin-right: 10px;
+  }
+  .custom-btn-delete {
+  background-color: #D0544E;
+  border-color: #D0544E;
+  color: white;
+    }
+
+    .custom-btn-edit {
+  background-color: #899EA6;
+  border-color: #899EA6;
+  color: white;
+    }
+
 </style>
 
 {% endblock %}

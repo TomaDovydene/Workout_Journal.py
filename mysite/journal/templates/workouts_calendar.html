@@ -21,7 +21,7 @@
 
   <style>
 .grey-box {
-  background-color: lightgrey;
+  background-color: #C5C3D8;
   color: black;
   padding: 10px;
   border-radius: 5px;
@@ -29,7 +29,7 @@
 }
 
 .blue-box {
-  background-color: lightblue;
+  background-color: #D8C3CB;
   color: black;
   padding: 10px;
   border-radius: 5px;
@@ -45,19 +45,20 @@
 
 <div>
 
-  <style>
+<style>
     .custom-titles-container {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
     }
 
     .custom-titles-heading {
         text-align: center;
         font-family: Times New Roman, serif;
         font-size: 35px;
-        color: #709C8A;
+        color: #AB982D;
     }
 </style>
 
@@ -67,6 +68,8 @@
         <strong class="custom-titles-heading">Workout Calendar {{ calendar_months.0.year }}</strong>
     </h2>
 </div>
+
+  <br>
 
 <div class="calendar-grid">
 {% for month in calendar_months %}

@@ -4,40 +4,36 @@
 
 {% block "content" %}
 
-
     <div>
 <ul>
    <li><strong>Workout Title - </strong>{{ workout.title }}</li>
    <li><strong>Workout Date - </strong>{{ workout.date|date:'Y-m-d' }}</li>
    <li><strong>Workout Notes - </strong>{{ workout.notes }}</li>
 </ul>
+    </div>
     <hr>
-
-
-        <style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #709C8A;
-    }
-</style>
-
 
 <div class="custom-titles-container">
     <h2>
         <strong class="custom-titles-heading">Completed Exercises in Workout List</strong>
     </h2>
 </div>
+        <br>
+        <div style="display: flex; justify-content: flex-end;">
+    <a href="{% url 'add_exercise' workout.id %}" class="btn custom-btn-add">Add Exercise</a>
+</div>
+        <br>
 
 <table class="table table-bordered table-striped">
+    <colgroup>
+            <col style="width: 23%;">
+            <col style="width: 12%;">
+            <col style="width: 10%;">
+            <col style="width: 10%;">
+            <col style="width: 35%;">
+            <col style="width: 5%;">
+            <col style="width: 5%;">
+        </colgroup>
   <thead class="table-dark">
     <tr>
       <th>Exercise Name</th>
@@ -60,20 +56,52 @@
         <td>{{ exercise.rep }} reps</td>
         <td>{{ exercise.notes }}</td>
         <td>
-          <a href="{% url 'edit_exercise' exercise.id %}" class="btn btn-secondary">Edit</a>
+          <a href="{% url 'edit_exercise' exercise.id %}" class="btn custom-btn-edit">Edit</a>
         </td>
         <td>
-          <a href="{% url 'delete_exercise' exercise.id %}" class="btn btn-danger">Delete</a>
+          <a href="{% url 'delete_exercise' exercise.id %}" class="btn custom-btn-delete">Delete</a>
         </td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
 
-        <br>
-        <a href="{% url 'add_exercise' workout.id %}" class="btn btn-primary">Add Exercise</a>
-    </div>
+<style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
+    }
 
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #AB982D;
+    }
+
+    .custom-btn-add {
+  background-color: #7B91C6;
+  border-color: #7B91C6;
+  color: white;
+    }
+
+  .custom-btn-delete {
+  background-color: #D0544E;
+  border-color: #D0544E;
+  color: white;
+    }
+
+    .custom-btn-edit {
+  background-color: #899EA6;
+  border-color: #899EA6;
+  color: white;
+    }
+
+</style>
+</style>
 
 {% endblock %}
 

@@ -6,23 +6,6 @@
 
 {% load static %}
 
-<style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #709C8A;
-    }
-</style>
-
-
 <div class="custom-titles-container">
     <h2>
         <strong class="custom-titles-heading">Personal Records by Weight List</strong>
@@ -38,6 +21,15 @@
 <br>
 
 <table class="table table-bordered table-striped">
+  <colgroup>
+    <col style="width: 22%;">
+    <col style="width: 17%;">
+    <col style="width: 14%;">
+    <col style="width: 10%;">
+    <col style="width: 8%;">
+    <col style="width: 9%;">
+    <col style="width: 10%;">
+  </colgroup>
   <thead class="table-dark">
     <tr>
       <th>Exercise Name</th>
@@ -53,7 +45,7 @@
     {% for exercise_name, workouts in top_weight_workouts.items %}
       {% for workout, exercise in workouts %}
         <tr>
-          <td>{{ exercise_name }}</td>
+          <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise_name }}</a></td>
           <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
           <td>{{ workout.date|date:'Y-m-d' }}</td>
           <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
@@ -75,5 +67,22 @@
     {% endfor %}
   </tbody>
 </table>
+
+<style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
+    }
+
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #AB982D;
+    }
+</style>
 
 {% endblock %}

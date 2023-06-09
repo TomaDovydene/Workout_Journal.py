@@ -3,19 +3,21 @@
 {% block "title" %}Edit Workout{% endblock %}
 
 {% block "content" %}
-  <style>
+
+ <style>
     .custom-titles-container {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
     }
 
     .custom-titles-heading {
         text-align: center;
         font-family: Times New Roman, serif;
         font-size: 35px;
-        color: #709C8A;
+        color: #AB982D;
     }
 </style>
 
@@ -25,6 +27,7 @@
         <strong class="custom-titles-heading">Edit Workout</strong>
     </h2>
 </div>
+<br>
 
   <form method="POST">
     {% csrf_token %}
