@@ -20,12 +20,16 @@
 </div>
 <br>
 
-<form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}">
-    <div class="search-container">
-        <input type="text" name="search" placeholder="Enter date or title">
-        <button type="submit">Search</button>
+<div style="display: flex; justify-content: space-between;">
+<form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}" class="search-form">
+    <div class="search-input">
+        <input type="text" name="search" placeholder="Enter date or title" class="search-field">
+        </div>
+    <div>
+        <button type="submit" class="search-button">Search</button>
     </div>
 </form>
+    </div>
 
 <br>
 
@@ -103,6 +107,32 @@
         font-family: Times New Roman, serif;
         font-size: 35px;
         color: #AB982D;
+    }
+
+     .search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .search-input {
+    margin-right: 10px;
+  }
+
+  .search-field {
+      padding: 3px 25px;
+      border: 1px solid #657d86;
+      border-radius: 2px;
+    }
+
+    .search-button {
+      padding: 3px 6px;
+      background-color: #DFDCDB;
+      border: none;
+      color: black;
+      border-radius: 2px;
+      cursor: pointer;
     }
 
 </style>
