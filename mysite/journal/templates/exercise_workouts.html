@@ -7,15 +7,32 @@
 {% block "content" %}
 {% load static %}
 
-<h1>
-    {% if exercise_name.pic %}
+<style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+    }
+
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #709C8A;
+    }
+</style>
+
+<div class="custom-titles-container">
+    <h2>
+        {% if exercise_name.pic %}
 <img src="{{ exercise_name.pic.url }}" style="margin-bottom: 10px; max-width: 10%">
 {% else %}
 <img src="{% static 'img/no-image.png' %}" class="card-img-top" style="width:100px;height:100px;">
 {% endif %}
-    {{ exercise_name.name }} Information</h1>
-
-
+        <strong class="custom-titles-heading">{{ exercise_name.name }} Information</strong>
+    </h2>
+</div>
 
 <form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}">
     <div class="search-container">

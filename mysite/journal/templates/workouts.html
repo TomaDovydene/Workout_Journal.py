@@ -8,12 +8,29 @@
 
 {% load static %}
 
-{% comment %}
-<h1>Calendar</h1>
-{% include "month_calendar.html" %}
-{% endcomment %}
+<style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+    }
 
-<h1>Workouts List:</h1>
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #709C8A;
+    }
+</style>
+
+
+<div class="custom-titles-container">
+    <h2>
+        <strong class="custom-titles-heading">Workouts List</strong>
+    </h2>
+</div>
+
 
 <br>
 <form method="GET" action="{% url 'workouts' %}">

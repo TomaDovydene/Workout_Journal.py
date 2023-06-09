@@ -3,9 +3,30 @@
 {% block "title" %}Delete Workout{% endblock %}
 
 {% block "content" %}
-  <h1>Delete Workout</h1>
+  <style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+    }
 
-  <p>Are you sure you want to delete the workout "{{ workout.title }}"?</p>
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #709C8A;
+    }
+</style>
+
+
+<div class="custom-titles-container">
+    <h2>
+        <strong class="custom-titles-heading">Delete Workout</strong>
+    </h2>
+</div>
+
+  <p>Are you sure you want to delete the workout "<strong> {{ workout.title }}</strong>"?</p>
 
   <form method="POST">
     {% csrf_token %}

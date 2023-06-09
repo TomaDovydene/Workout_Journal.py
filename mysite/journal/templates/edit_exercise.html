@@ -3,7 +3,31 @@
 {% block "title" %}Edit Exercise{% endblock %}
 
 {% block "content" %}
-<h2>Edit Exercise</h2>
+
+
+<style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+    }
+
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #709C8A;
+    }
+</style>
+
+
+<div class="custom-titles-container">
+    <h2>
+        <strong class="custom-titles-heading">Edit Exercise</strong>
+    </h2>
+</div>
+
 <form method="post">
   {% csrf_token %}
   <label for="weight">Weight:</label>

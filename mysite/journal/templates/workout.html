@@ -12,7 +12,31 @@
    <li><strong>Workout Notes - </strong>{{ workout.notes }}</li>
 </ul>
     <hr>
-<h1>Completed exercises in workout:</h1>
+
+
+        <style>
+    .custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+    }
+
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #709C8A;
+    }
+</style>
+
+
+<div class="custom-titles-container">
+    <h2>
+        <strong class="custom-titles-heading">Completed Exercises in Workout List</strong>
+    </h2>
+</div>
+
 <table class="table table-bordered table-striped">
   <thead class="table-dark">
     <tr>
