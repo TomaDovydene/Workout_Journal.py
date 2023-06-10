@@ -4,13 +4,14 @@
 
 {% block "content" %}
 
-    <div>
-<ul>
-   <li><strong>Workout Title - </strong>{{ workout.title }}</li>
-   <li><strong>Workout Date - </strong>{{ workout.date|date:'Y-m-d' }}</li>
-   <li><strong>Workout Notes - </strong>{{ workout.notes }}</li>
-</ul>
-    </div>
+<div class="workout-details">
+  <ul>
+    <li><strong>Title: </strong><span class="workout-title">{{ workout.title }}</span></li>
+    <li><strong>Date: </strong>{{ workout.date|date:'Y-m-d' }}</li>
+    <li><strong>Notes: </strong>{{ workout.notes }}</li>
+  </ul>
+</div>
+
     <hr>
 
 <div class="custom-titles-container">
@@ -67,6 +68,35 @@
 </table>
 
 <style>
+.workout-details {
+  font-family: Times New Roman, serif;
+  font-size: 18px;
+  color: #333;
+  padding: 10px;
+  background-color: #F4F4F4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.workout-details ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.workout-details li {
+  margin-bottom: 10px;
+}
+
+.workout-details strong {
+  font-weight: bold;
+  color: #923973;
+}
+
+.workout-details .workout-title {
+  font-weight: bold;
+}
+
     .custom-titles-container {
         display: flex;
         justify-content: center;
