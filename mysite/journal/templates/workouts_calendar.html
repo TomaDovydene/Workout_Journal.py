@@ -9,12 +9,12 @@
   <tr>
     <th class="grey-box">Completed Workouts:</th>
     <td class="blue-box">
-      <a href="{% url 'workouts' %}">{{ num_workouts }}</a>
+      <a href="{% url 'workouts' %}" class="link-style-info">{{ num_workouts }}</a>
     </td>
     <td>&nbsp;&nbsp;&nbsp;</td>
     <th class="grey-box">Completed Exercises:</th>
     <td class="blue-box">
-      <a href="{% url 'exercises' %}">{{ num_exercises }}</a>
+      <a href="{% url 'exercises' %}" class="link-style-info">{{ num_exercises }}</a>
     </td>
   </tr>
 </table>
@@ -60,7 +60,7 @@
         <td class="day-cell">
           {% if day %}
             {% if is_marked %}
-              <a href="{% url 'workout' workout_id=workout_id %}?date={{ month.year }}-{{ month.month }}-{{ day }}">{{ day }}</a>
+              <a href="{% url 'workout' workout_id=workout_id %}?date={{ month.year }}-{{ month.month }}-{{ day }}" class="link-style-calendar">{{ day }}</a>
             {% else %}
               {{ day }}
             {% endif %}
@@ -145,6 +145,24 @@
     padding: 1px;
     vertical-align: middle;
   }
+
+  .link-style-calendar {
+  color: #cd32bf;
+  font-weight: bold;
+  }
+
+  .link-style-calendar:hover {
+  color: #a42899;
+}
+
+.link-style-info {
+  color: #7d2ad5;
+  font-weight: bold;
+  }
+
+  .link-style-info:hover {
+  color: #6120a5;
+}
 
 </style>
 

@@ -50,7 +50,7 @@
     {% for exercise in workout.exercises.all %}
       <tr>
         <td>
-        <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise.get_name }}</a>
+        <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise.get_name }}</a>
       </td>
         <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
         <td>{{ exercise.set }} sets</td>
@@ -130,8 +130,17 @@
   color: white;
     }
 
+    .link-style-table {
+  color: #917143;
+  font-weight: bold;
+  }
+
+  .link-style-table:hover {
+  color: #5b472a;
+}
+
 </style>
-</style>
+
 
 {% endblock %}
 

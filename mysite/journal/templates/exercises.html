@@ -39,7 +39,7 @@
             <img src="{% static 'img/no-exercise-image.png' %}" class="no-image">
           {% endif %}
           <div class="centre-box">
-            <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise.exercise_name }}</a></h6>
+            <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style">{{ exercise.exercise_name }}</a></h6>
           </div>
         {% endwith %}
       </div>
@@ -107,9 +107,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #D6CFE6;
+  border: 1px solid #D6D2C4;
   border-radius: 7px;
-  background-color: #f2f0f7;
+  background-color: #EBE9E2;
 }
 
     .exercise-container {
@@ -142,6 +142,15 @@
          margin-top: auto;
 
     }
+
+    .link-style {
+  color: #6b644a;
+  font-weight: bold;
+  }
+
+  .link-style:hover {
+  color: #373426;
+}
 
     .search-form {
     display: flex;

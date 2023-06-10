@@ -51,8 +51,8 @@
     {% for exercise_name, workouts in top_rep_workouts.items %}
       {% for workout, exercise in workouts %}
         <tr>
-          <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise_name }}</a></td>
-          <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
+          <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise_name }}</a></td>
+          <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
           <td>{{ workout.date|date:'Y-m-d' }}</td>
           <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
           <td>{{ exercise.set }} sets</td>
@@ -115,6 +115,15 @@
       border-radius: 2px;
       cursor: pointer;
     }
+
+    .link-style-table {
+  color: #917143;
+  font-weight: bold;
+  }
+
+  .link-style-table:hover {
+  color: #5b472a;
+}
 </style>
 
 {% endblock %}

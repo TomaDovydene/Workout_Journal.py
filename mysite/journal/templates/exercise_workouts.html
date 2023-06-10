@@ -60,7 +60,7 @@
     {% for workout, info in workout_info.items %}
     {% for exercise in info.exercises %}
     <tr>
-        <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
+        <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
         <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
         <td>{{ exercise.set }} sets</td>
@@ -134,6 +134,15 @@
       border-radius: 2px;
       cursor: pointer;
     }
+
+    .link-style-table {
+  color: #917143;
+  font-weight: bold;
+  }
+
+  .link-style-table:hover {
+  color: #5b472a;
+}
 
 </style>
 
