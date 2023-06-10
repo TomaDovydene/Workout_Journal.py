@@ -4,23 +4,7 @@
 
 {% block "content" %}
 
-<style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-</style>
-
+{% load static %}
 
 <div class="custom-titles-container">
     <h2>
@@ -29,7 +13,7 @@
 </div>
 <br>
 
-<p>
+<p class="text-about">
     Introducing the perfect solution for fitness enthusiasts
     and workout fanatics - our brand new blog site to add
     your work outs and track your progress. This sleek
@@ -44,13 +28,71 @@
     your workouts and get the most out of your fitness routine.
 </p>
 <br>
-<p>
+<p class="text-about">
 Whether you're a seasoned athlete or just starting out
     on your fitness journey, our blog site is the perfect
     tool to stay motivated, stay on track, and achieve your
     best possible results. So why wait? Sign up today and
     start tracking your workouts like a pro!
 </p>
+<br>
+<br>
+<div class="image-row">
+    <div class="image-container">
+        <img src="{% static 'about/image1.jpg' %}" alt="Image 1">
+    </div>
+    <div class="image-container">
+        <img src="{% static 'about/image2.jpg' %}" alt="Image 2">
+    </div>
+    <div class="image-container">
+        <img src="{% static 'about/image3.jpg' %}" alt="Image 3">
+    </div>
+</div>
+
+<style>
+.custom-titles-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(1vh - 1px);
+        background-color: #F4F4F4;
+    }
+
+    .custom-titles-heading {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 35px;
+        color: #AB982D;
+    }
+
+    .text-about {
+    font-size: 18px;
+  font-family: Georgia;
+  color: #333;
+  line-height: 2;
+  margin-bottom: 10px;
+  }
+
+    .image-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-container {
+  flex-basis: calc(33.33% - 10px);
+  margin-right: 10px;
+}
+
+.image-container:last-child {
+  margin-right: 0;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+}
+
+</style>
 
 
 
