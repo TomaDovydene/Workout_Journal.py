@@ -7,8 +7,45 @@
 
 {% block "content" %}
 
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="custom-legend">Add an Exercise</legend>
+            <hr class="custom-line">
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form.exercise_name|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.custom_exercise_name|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form.weight|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.set|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.rep|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.notes|as_crispy_field }}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn custom-btn-add" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
+
 <style>
-    .custom-legend {
+.custom-legend {
         font-family: Times New Roman, serif;
         font-size: 24px;
         color: #AB982D;
@@ -21,21 +58,31 @@
         border-top: 4px solid #2D40AB;
         margin: 0;
     }
-</style>
 
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="custom-legend">Add an Exercise</legend>
-            <hr class="custom-line">
-            <br>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Save</button>
-        </div>
-    </form>
-    </div>
+    .custom-btn-add {
+  background-color: #7B91C6;
+  border-color: #7B91C6;
+  color: white;
+    }
+
+    .form-row {
+    margin-bottom: 10px;
+}
+
+.form-group.col-md-6 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.form-group.col-md-4 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.col-form-label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+</style>
 
 {% endblock %}

@@ -204,8 +204,20 @@ def edit_exercise(request, exercise_id):
         exercise.weight = request.POST['weight']
         exercise.set = request.POST['set']
         exercise.rep = request.POST['rep']
+        exercise.notes = request.POST['notes']
+
+        custom_exercise_name = request.POST.get('custom_exercise_name')
+        if exercise.exercise_name.s_custom:
+            exercise.exercise_name.name = custom_exercise_name
+            exercise.exercise_name.save()
+        else:
+            new_custom_exercise_name = ExerciseName.objects.create(name=custom_exercise_name, created_by=request.user,
+                                                                   s_custom=True)
+            exercise.exercise_name = new_custom_exercise_name
+
         exercise.save()
         return redirect('workout', workout_id=exercise.workout.id)
+
     return render(request, 'edit_exercise.html', {'exercise': exercise})
 
 

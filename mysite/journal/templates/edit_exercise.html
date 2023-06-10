@@ -3,26 +3,6 @@
 {% block "title" %}Edit Exercise{% endblock %}
 
 {% block "content" %}
-
-
-<style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-</style>
-
-
 <div class="custom-titles-container">
     <h2>
         <strong class="custom-titles-heading">Edit Exercise</strong>
@@ -32,17 +12,89 @@
 
 <form method="post">
   {% csrf_token %}
-  <label for="weight">Weight:</label>
-  <input type="text" id="weight" name="weight" value="{{ exercise.weight }}">
 
-  <label for="set">Set:</label>
-  <input type="text" id="set" name="set" value="{{ exercise.set }}">
+<div class="form-row">
+  <div class="form-group">
+    <label for="custom_exercise_name" class="custom-label">Custom Exercise Name:</label>
+    <input type="text" id="custom_exercise_name" name="custom_exercise_name" value="{{ exercise.exercise_name.name }}" class="custom-input">
+  </div>
+</div>
 
-  <label for="rep">Rep:</label>
-  <input type="text" id="rep" name="rep" value="{{ exercise.rep }}">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="weight" class="custom-label">Weight:</label>
+      <input type="text" id="weight" name="weight" value="{{ exercise.weight }}" class="custom-input">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="set" class="custom-label">Sets:</label>
+      <input type="text" id="set" name="set" value="{{ exercise.set }}" class="custom-input">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="rep" class="custom-label">Reps:</label>
+      <input type="text" id="rep" name="rep" value="{{ exercise.rep }}" class="custom-input">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="notes" class="custom-label">Notes:</label>
+      <textarea id="notes" name="notes" class="custom-input">{{ exercise.notes }}</textarea>
+    </div>
+  </div>
 
   <br><br>
-  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="submit" class="btn custom-btn-edit">Update</button>
 </form>
 
+
+<style>
+  /* Styles for the custom form */
+  .custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+  }
+
+  .custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+  }
+
+  .custom-label {
+    font-weight: bold;
+    margin-right: 5px;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    color: #923973;
+  }
+
+  .custom-input {
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .form-row {
+    margin-bottom: 10px;
+  }
+
+  .custom-btn-edit {
+  background-color: #899EA6;
+  border-color: #899EA6;
+  color: white;
+    }
+</style>
 {% endblock %}

@@ -6,6 +6,31 @@
 
 {% block "content" %}
 
+    <div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="custom-legend">Add Workout</legend>
+            <hr class="custom-line">
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form.title|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.date|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.notes|as_crispy_field }}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn custom-btn-add" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
 <style>
     .custom-legend {
         font-family: Times New Roman, serif;
@@ -20,20 +45,21 @@
         border-top: 4px solid #2D40AB;
         margin: 0;
     }
+
+    .custom-btn-add {
+  background-color: #7B91C6;
+  border-color: #7B91C6;
+  color: white;
+    }
+
+    .form-row {
+    margin-bottom: 10px;
+}
+
+.form-group.col-md-6 {
+    padding-right: 10px;
+    padding-left: 10px;
+}
 </style>
 
-    <div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="custom-legend">Add Workout</legend>
-            <hr class="custom-line">
-            <br>
-            {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Submit</button>
-        </div>
-    </form>
-    </div>
 {% endblock %}

@@ -54,7 +54,7 @@
         <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>
-        <td>{{ exercise.notes }}</td>
+         <td style="max-width: 150px; overflow: auto;">{{ exercise.notes }}</td>
         <td>
           <a href="{% url 'edit_exercise' exercise.id %}" class="btn custom-btn-edit">Edit</a>
         </td>

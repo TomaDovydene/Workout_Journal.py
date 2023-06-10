@@ -53,7 +53,7 @@
     <tr>
         <td><a href="{% url 'workout' workout.id %}">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
-        <td>{{ workout.notes }}</td>
+        <td style="max-width: 300px; overflow: auto;">{{ workout.notes }}</td>
         <td><a href="{% url 'edit_workout' workout.id %}" class="btn custom-btn-edit">Edit</a></td>
         <td><a href="{% url 'delete_workout' workout.id %}" class="btn custom-btn-delete">Delete</a></td>
     </tr>
@@ -138,7 +138,6 @@
       border-radius: 2px;
       cursor: pointer;
     }
-
 
 </style>
 

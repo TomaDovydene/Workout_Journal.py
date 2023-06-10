@@ -4,6 +4,46 @@
 
 {% block "content" %}
 
+<div class="custom-titles-container">
+    <h2>
+        <strong class="custom-titles-heading">Edit Workout</strong>
+    </h2>
+</div>
+<br>
+
+<form method="POST" class="custom-form">
+  {% csrf_token %}
+
+
+    <div class="form-row">
+    <div class="form-group">
+      <label for="title" class="custom-label">Title:</label>
+      <input type="text" id="title" name="title" value="{{ workout.title }}" class="custom-input">
+  </div>
+
+<div class="form-row spacer"></div>
+
+<div class="form-row">
+  <div class="form-row">
+    <label for="date" class="custom-label">Date:</label>
+    <input type="date" id="date" name="date" value="{{ workout.date }}" class="custom-input">
+  </div>
+  </div>
+
+
+    <div class="form-row">
+    <div class="form-group">
+      <label for="notes" class="custom-label">Notes:</label>
+      <textarea id="notes" name="notes" class="custom-input">{{ workout.notes }}</textarea>
+    </div>
+  </div>
+
+  <button type="submit" class="btn custom-btn-edit">Update</button>
+</div>
+</form>
+
+
+
  <style>
     .custom-titles-container {
         display: flex;
@@ -19,21 +59,36 @@
         font-size: 35px;
         color: #AB982D;
     }
+
+    .custom-label {
+    font-weight: bold;
+    margin-right: 5px;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    color: #923973;
+  }
+
+  .custom-input {
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .form-row {
+    margin-bottom: 10px;
+  }
+  .spacer {
+  margin-bottom: 15px;
+}
+
+    .custom-btn-edit {
+  background-color: #899EA6;
+  border-color: #899EA6;
+  color: white;
+    }
 </style>
 
-
-<div class="custom-titles-container">
-    <h2>
-        <strong class="custom-titles-heading">Edit Workout</strong>
-    </h2>
-</div>
-<br>
-
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Save</button>
-  </form>
-
-  <a href="{% url 'workout' workout.id %}" class="btn btn-secondary">Cancel</a>
 {% endblock %}

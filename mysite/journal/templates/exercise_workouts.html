@@ -66,7 +66,7 @@
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>
         <td>{{ exercise.sum|stringformat:".2f"  }} kg</td>
-        <td>{{ exercise.notes }}</td>
+        <td style="max-width: 300px; overflow: auto;">{{ exercise.notes }}</td>
     </tr>
     {% endfor %}
     {% empty %}
