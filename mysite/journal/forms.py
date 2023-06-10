@@ -19,7 +19,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class WorkoutForm(forms.ModelForm):
-    notes = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'rows': 4}))
+    notes = forms.CharField(max_length=100, required=False, widget=forms.Textarea(attrs={'rows': 4}))
     class Meta:
         model = Workout
         fields = ['title', 'date', 'notes']

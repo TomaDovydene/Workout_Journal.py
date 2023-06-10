@@ -10,15 +10,19 @@
 </div>
 <br>
 
-<form method="post">
-  {% csrf_token %}
 
-<div class="form-row">
-  <div class="form-group">
-    <label for="custom_exercise_name" class="custom-label">Custom Exercise Name:</label>
-    <input type="text" id="custom_exercise_name" name="custom_exercise_name" value="{{ exercise.exercise_name.name }}" class="custom-input">
-  </div>
-</div>
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="custom_exercise_name" class="custom-label">Exercise Name:</label>
+            <input type="text" id="custom_exercise_name" name="custom_exercise_name" value="{{ exercise.exercise_name.name }}" class="custom-input" {% if exercise.exercise_name.created_by_id == 1 %}readonly{% endif %}>
+        {% if exercise.exercise_name.created_by_id == 1 %}
+    <span class="message-exercise-name">The name of the exercise cannot be changed</span>
+{% endif %}
+        </div>
+    </div>
 
   <div class="form-row">
     <div class="form-group">
@@ -76,6 +80,12 @@
     font-family: Times New Roman, serif;
     font-size: 18px;
     color: #923973;
+  }
+
+  .message-exercise-name {
+    font-style: italic;
+    font-size: smaller;
+    color: #686c70;
   }
 
   .custom-input {

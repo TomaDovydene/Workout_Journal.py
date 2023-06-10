@@ -1,4 +1,7 @@
 import itertools
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
@@ -206,14 +209,12 @@ def edit_exercise(request, exercise_id):
         exercise.rep = request.POST['rep']
         exercise.notes = request.POST['notes']
 
-        custom_exercise_name = request.POST.get('custom_exercise_name')
-        if exercise.exercise_name.s_custom:
-            exercise.exercise_name.name = custom_exercise_name
-            exercise.exercise_name.save()
-        else:
-            new_custom_exercise_name = ExerciseName.objects.create(name=custom_exercise_name, created_by=request.user,
-                                                                   s_custom=True)
-            exercise.exercise_name = new_custom_exercise_name
+        if exercise.exercise_name and exercise.exercise_name.created_by_id != 1:
+            # Allow editing of exercise name for exercise names not created by user ID 1
+            custom_exercise_name = request.POST.get('custom_exercise_name')
+            if custom_exercise_name:
+                exercise_name, created = ExerciseName.objects.get_or_create(name=custom_exercise_name)
+                exercise.exercise_name = exercise_name
 
         exercise.save()
         return redirect('workout', workout_id=exercise.workout.id)

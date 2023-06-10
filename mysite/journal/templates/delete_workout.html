@@ -33,7 +33,28 @@
 
   <form method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{% url 'workout' workout.id %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn custom-btn-delete">Delete</button>
+    <a href="{% url 'workout' workout.id %}" class="btn custom-btn-cancel">Cancel</a>
   </form>
+
+<style>
+    .custom-btn-delete {
+  background-color: #D0544E;
+  border-color: #D0544E;
+  color: white;
+    }
+    .custom-btn-delete:hover {
+  background-color: #D0544E;
+}
+
+    .custom-btn-cancel {
+  background-color: #899EA6;
+  border-color: #899EA6;
+  color: white;
+    }
+    .custom-btn-cancel:hover {
+  background-color: #899EA6;
+}
+</style>
+
 {% endblock %}
