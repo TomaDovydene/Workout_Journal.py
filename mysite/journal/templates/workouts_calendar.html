@@ -30,7 +30,11 @@
 
 <div class="custom-titles-container">
     <h2>
-        <strong class="custom-titles-heading">Workout Calendar {{ calendar_months.0.year }}</strong>
+        <strong class="custom-titles-heading">
+            <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'-1' %}" class="link-style-year">Previous > </a>
+            Workout Calendar {{ calendar_months.0.year }}
+            <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'1' %}" class="link-style-year" style="margin-left: 80px"> < Next</a>
+        </strong>
     </h2>
 </div>
 
@@ -162,6 +166,17 @@
 
   .link-style-info:hover {
   color: #6120a5;
+}
+
+.link-style-year {
+  color: #a1a4a8;
+  font-family: Times New Roman, serif;
+  font-size: 12px;
+  margin-right: 100px
+  }
+
+  .link-style-year:hover {
+  color: #686c70;
 }
 
 </style>

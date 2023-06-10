@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, WorkoutForm, ExerciseForm
 from django.db.models import Sum, Q, Max
 
-from datetime import date
+from datetime import date, datetime
 from calendar import monthrange
 from dateutil.relativedelta import relativedelta
 
@@ -409,7 +409,12 @@ def personal_records_by_reps(request):
 
 
 @login_required
-def workout_summary_calendar(request, year):
+def workout_summary_calendar(request, year=None):
+    if year is None:
+        year = datetime.now().year
+    else:
+        year = int(year)
+
     user = request.user
 
     num_exercises = Exercise.objects.filter(athlete=user).count()
