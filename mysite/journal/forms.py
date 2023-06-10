@@ -46,7 +46,7 @@ class ExerciseForm(forms.ModelForm):
         # Filter exercise name choices based on custom exercises added by the user and exercise names created by the superuser
         self.fields['exercise_name'].queryset = ExerciseName.objects.filter(
             Q(created_by__isnull=True) | Q(created_by=self.user) | Q(created_by_id=1)
-        )
+        ).order_by('name')
 
     def clean(self):
         cleaned_data = super().clean()

@@ -53,7 +53,7 @@
     <tr>
         <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
-        <td style="max-width: 300px; overflow: auto;">{{ workout.notes }}</td>
+        <td style="max-width: 300px; overflow: auto; font-style: italic; font-size: smaller;">{{ workout.notes }}</td>
         <td><a href="{% url 'edit_workout' workout.id %}" class="btn custom-btn-edit">Edit</a></td>
         <td><a href="{% url 'delete_workout' workout.id %}" class="btn custom-btn-delete">Delete</a></td>
     </tr>
@@ -100,18 +100,27 @@
   border-color: #7B91C6;
   color: white;
     }
+    .custom-btn-add:hover {
+  background-color: #7B91C6;
+}
 
     .custom-btn-delete {
   background-color: #D0544E;
   border-color: #D0544E;
   color: white;
     }
+    .custom-btn-delete:hover {
+  background-color: #D0544E;
+}
 
     .custom-btn-edit {
   background-color: #899EA6;
   border-color: #899EA6;
   color: white;
     }
+    .custom-btn-edit:hover {
+  background-color: #899EA6;
+}
 
     .search-form {
     display: flex;
