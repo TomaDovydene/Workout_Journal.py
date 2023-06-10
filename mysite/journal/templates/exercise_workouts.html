@@ -13,7 +13,7 @@
         {% if exercise_name.pic %}
 <img src="{{ exercise_name.pic.url }}" style="margin-bottom: 10px; max-width: 10%">
 {% else %}
-<img src="{% static 'img/no-image.png' %}" class="card-img-top" style="width:100px;height:100px;">
+<img src="{% static 'img/no-exercise-image.png' %}" class="card-img-top" style="width:60px;height:60px;">
 {% endif %}
         <strong class="custom-titles-heading">{{ exercise_name.name }} Information</strong>
     </h2>

@@ -25,24 +25,27 @@
   </div>
 
 {% if exercises %}
+<div class="exercise-container">
 <div class="row">
   {% for exercise_group in exercises %}
-    <div class="col-md-4 d-flex align-items-stretch">
-      <div class="card mb-4 shadow-sm">
+    <div class="col-md-4">
+      <div class="card mb-2">
         {% with exercise=exercise_group.0 %}
           {% if exercise.exercise_name.pic %}
-            <img src="{{ exercise.exercise_name.pic.url }}" class="card-img-top" alt="...">
+        <div class="image-container">
+            <img src="{{ exercise.exercise_name.pic.url }}" class="image-box">
+          </div>
           {% else %}
-            <img src="{% static 'img/no-image.png' %}" class="card-img-top">
+            <img src="{% static 'img/no-exercise-image.png' %}" class="no-image">
           {% endif %}
-          <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">{{ exercise.exercise_name }}</h6>
-          <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">View Details</a>
+          <div class="centre-box">
+            <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}">{{ exercise.exercise_name }}</a></h6>
           </div>
         {% endwith %}
       </div>
     </div>
   {% endfor %}
+</div>
 </div>
 {% else %}
 <p>There is no history of exercises</p>
@@ -62,6 +65,82 @@
         font-family: Times New Roman, serif;
         font-size: 35px;
         color: #AB982D;
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    .image-box {
+        width: 40%;
+        height: 110px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .no-image {
+    object-fit: contain;
+    width: 40%;
+        height: 90px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 10px;
+}
+
+  .centre-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .card {
+  height: 110%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #D6CFE6;
+  border-radius: 7px;
+  background-color: #f2f0f7;
+}
+
+    .exercise-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+
+    .row {
+        margin: 0 -15px;
+    }
+
+    .col-md-4 {
+        padding: 15px;
+        width: 250px;
+        height: 200px;
+  }
+
+
+
+    .exercise-name {
+        text-align: center;
+        font-family: Times New Roman, serif;
+        font-size: 17px;
+        color: #AB982D;
+         margin-top: auto;
+
     }
 
     .search-form {
@@ -89,6 +168,7 @@
       border-radius: 2px;
       cursor: pointer;
     }
+
 
 </style>
 
