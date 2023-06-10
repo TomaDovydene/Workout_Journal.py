@@ -26,7 +26,7 @@
    </div>
 <br>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered">
   <colgroup>
     <col style="width: 22%;">
     <col style="width: 17%;">
@@ -49,9 +49,14 @@
   </thead>
   <tbody>
     {% for exercise_name, workouts in top_rep_workouts.items %}
+    <tr class="{% cycle 'exercise-color1' 'exercise-color2' as row_color %}"></tr>
+      <tr class="separator-row">
+        <td colspan="7"></td>
+      </tr>
       {% for workout, exercise in workouts %}
-        <tr>
-          <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise_name }}</a></td>
+        {% if exercise.exercise_name.name == exercise_name %}
+        <tr class="{{ row_color }}">
+          <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise.exercise_name.name }}</a></td>
           <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
           <td>{{ workout.date|date:'Y-m-d' }}</td>
           <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
@@ -59,12 +64,11 @@
           <td>{{ exercise.rep }} reps</td>
           <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
         </tr>
+        {% endif %}
       {% empty %}
-    {% if workouts %}
         <tr>
           <td colspan="7">No workouts found.</td>
         </tr>
-    {% endif %}
       {% endfor %}
     {% empty %}
       <tr>
@@ -74,7 +78,22 @@
   </tbody>
 </table>
 
+
+
 <style>
+.separator-row {
+  background-color: #e5e5e7;
+    height: 0;
+  }
+
+  .exercise-color1 {
+    background-color: #C5C3D8;
+  }
+
+  .exercise-color2 {
+    background-color: #D8C3CB;
+  }
+
     .custom-titles-container {
         display: flex;
         justify-content: center;
@@ -117,12 +136,12 @@
     }
 
     .link-style-table {
-  color: #917143;
+  color: #5d004b;
   font-weight: bold;
   }
 
   .link-style-table:hover {
-  color: #5b472a;
+  color: #320029;
 }
 </style>
 

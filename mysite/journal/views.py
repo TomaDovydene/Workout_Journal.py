@@ -346,26 +346,26 @@ def personal_records_by_weight(request):
     top_weight_workouts = {}
 
     for exercise in exercises:
-        if exercise.exercise_name:  # Check if exercise has a non-null exercise_name
-            workouts = Workout.objects.filter(
+        if exercise.exercise_name:
+            exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
-                exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
-                max_weight=Max('exercises__weight')).order_by('-max_weight')[:3]
+                exercise_name__name__icontains=exercise.exercise_name.name
+            ).order_by('-weight', '-rep')
 
-            top_weight_workouts[exercise.exercise_name.name] = []
+            if exercise_instances:
+                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:3]
+                workouts = Workout.objects.filter(id__in=workout_ids)
 
-            for workout in workouts:
-                exercise_instance = workout.exercises.filter(
-                    athlete=request.user,
-                    exercise_name__name__icontains=exercise.exercise_name.name).order_by('-weight').first()
+                top_weight_workouts[exercise.exercise_name.name] = []
 
-                if exercise_instance:
-                    top_weight_workouts[exercise.exercise_name.name].append((workout, exercise_instance))
+                for workout in workouts:
+                    exercises_in_workout = exercise_instances.filter(workout_id=workout.id)
+                    top_weight_workouts[exercise.exercise_name.name].extend(
+                        [(workout, exercise) for exercise in exercises_in_workout[:3]])
 
     context = {
         'top_weight_workouts': top_weight_workouts,
         'query': query if query else '',
-        'all_exercises': Exercise.objects.filter(athlete=request.user).values_list('exercise_name__name', flat=True).distinct()
     }
 
     return render(request, 'personal_records_by_weight.html', context=context)
@@ -384,21 +384,22 @@ def personal_records_by_reps(request):
     top_rep_workouts = {}
 
     for exercise in exercises:
-        if exercise.exercise_name:  # Check if exercise has a non-null exercise_name
-            workouts = Workout.objects.filter(
+        if exercise.exercise_name:
+            exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
-                exercises__exercise_name__name__icontains=exercise.exercise_name.name).annotate(
-                max_rep=Max('exercises__rep')).order_by('-max_rep')[:3]
+                exercise_name__name__icontains=exercise.exercise_name.name
+            ).order_by('-rep', '-weight')
 
-            top_rep_workouts[exercise.exercise_name.name] = []
+            if exercise_instances:
+                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:3]
+                workouts = Workout.objects.filter(id__in=workout_ids)
 
-            for workout in workouts:
-                exercise_instance = workout.exercises.filter(
-                    athlete=request.user,
-                    exercise_name__name__icontains=exercise.exercise_name.name).order_by('-rep').first()
+                top_rep_workouts[exercise.exercise_name.name] = []
 
-                if exercise_instance:
-                    top_rep_workouts[exercise.exercise_name.name].append((workout, exercise_instance))
+                for workout in workouts:
+                    exercises_in_workout = exercise_instances.filter(workout_id=workout.id)
+                    top_rep_workouts[exercise.exercise_name.name].extend(
+                        [(workout, exercise) for exercise in exercises_in_workout[:3]])
 
     context = {
         'top_rep_workouts': top_rep_workouts,
