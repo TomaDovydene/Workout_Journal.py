@@ -161,7 +161,7 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
     model = Exercise
     context_object_name = 'exercises'
     template_name = 'exercises.html'
-    paginate_by = 10
+    paginate_by = 30
 
     def get_queryset(self):
         query = self.request.GET.get('query')

@@ -60,11 +60,11 @@
     {% for exercise in info.exercises %}
     <tr>
         <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
-        <td>{{ workout.date|date:'Y-m-d' }}</td>
-        <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
-        <td>{{ exercise.set }} sets</td>
-        <td>{{ exercise.rep }} reps</td>
-        <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
+        <td class="table-numbers">{{ workout.date|date:'Y-m-d' }}</td>
+        <td class="table-numbers">{{ exercise.weight|stringformat:".2f" }} kg</td>
+        <td class="table-numbers">{{ exercise.set }} sets</td>
+        <td class="table-numbers">{{ exercise.rep }} reps</td>
+        <td class="table-numbers">{{ exercise.sum|stringformat:".2f" }} kg</td>
         <td style="max-width: 300px; overflow: auto; font-style: italic; font-size: smaller">{{ exercise.notes }}</td>
     </tr>
     {% endfor %}
@@ -132,9 +132,19 @@
     cursor: pointer;
 }
 
+.table-numbers {
+    text-align: center;
+    vertical-align: middle;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+}
+
 .link-style-table {
     color: #917143;
     font-weight: bold;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    vertical-align: middle;
 }
 
 .link-style-table:hover {

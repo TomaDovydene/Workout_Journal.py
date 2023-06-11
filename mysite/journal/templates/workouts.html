@@ -53,7 +53,7 @@
     {% for workout in workouts %}
     <tr>
         <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
-        <td>{{ workout.date|date:'Y-m-d' }}</td>
+        <td class="table-numbers">{{ workout.date|date:'Y-m-d' }}</td>
         <td style="max-width: 300px; overflow: auto; font-style: italic; font-size: smaller;">{{ workout.notes }}</td>
         <td><a href="{% url 'edit_workout' workout.id %}" class="btn custom-btn-edit">Edit</a></td>
         <td><a href="{% url 'delete_workout' workout.id %}" class="btn custom-btn-delete">Delete</a></td>
@@ -152,9 +152,19 @@
     cursor: pointer;
 }
 
+.table-numbers {
+    text-align: center;
+    vertical-align: middle;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+}
+
 .link-style-table {
     color: #917143;
     font-weight: bold;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    vertical-align: middle;
 }
 
 .link-style-table:hover {

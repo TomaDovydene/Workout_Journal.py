@@ -56,9 +56,9 @@
             <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">
                 {{ exercise.get_name }}</a>
         </td>
-        <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
-        <td>{{ exercise.set }} sets</td>
-        <td>{{ exercise.rep }} reps</td>
+        <td class="table-numbers">{{ exercise.weight|stringformat:".2f" }} kg</td>
+        <td class="table-numbers">{{ exercise.set }} sets</td>
+        <td class="table-numbers">{{ exercise.rep }} reps</td>
         <td style="max-width: 150px; overflow: auto; font-style: italic; font-size: smaller;">{{ exercise.notes }}</td>
         <td>
             <a href="{% url 'edit_exercise' exercise.id %}" class="btn custom-btn-edit">Edit</a>
@@ -146,9 +146,19 @@
     background-color: #899EA6;
 }
 
+.table-numbers {
+    text-align: center;
+    vertical-align: middle;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+}
+
 .link-style-table {
     color: #917143;
     font-weight: bold;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    vertical-align: middle;
 }
 
 .link-style-table:hover {
