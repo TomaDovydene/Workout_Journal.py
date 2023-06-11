@@ -54,7 +54,6 @@
         <th>Notes</th>
     </tr>
     </thead>
-
     <tbody>
     {% for workout, info in workout_info.items %}
     {% for exercise in info.exercises %}
@@ -121,6 +120,8 @@
     padding: 3px 25px;
     border: 1px solid #657d86;
     border-radius: 2px;
+    font-style: italic;
+    font-size: smaller;
 }
 
 .search-button {
