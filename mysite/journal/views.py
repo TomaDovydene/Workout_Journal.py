@@ -1,11 +1,7 @@
 import itertools
-
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-
 from .models import Exercise, Workout, ExerciseName
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -15,15 +11,13 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, WorkoutForm, ExerciseForm
-from django.db.models import Sum, Q, Max
-
+from django.db.models import Sum, Q
 from datetime import date, datetime
 from calendar import monthrange
 from dateutil.relativedelta import relativedelta
 
-
-
 # Create your views here.
+
 
 @csrf_protect
 def register(request):
@@ -80,7 +74,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-
 @login_required
 def workouts(request):
     query = request.GET.get('query')
@@ -90,12 +83,10 @@ def workouts(request):
     if query:
         workouts = workouts.filter(Q(title__icontains=query) | Q(date__icontains=query))
 
-
     if sort_by == 'title':
         workouts = workouts.order_by('title')
     elif sort_by == 'date':
         workouts = workouts.order_by('date')
-
 
     context = {
         'workouts': workouts,
@@ -251,6 +242,7 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
         return context
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user  # Pass the current user to the form
@@ -279,7 +271,6 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
     def get_success_url(self):
         workout_id = self.kwargs['workout_id']
         return reverse_lazy('workout', kwargs={'workout_id': workout_id})
-
 
 
 @login_required
@@ -409,7 +400,6 @@ def personal_records_by_reps(request):
     return render(request, 'personal_records_by_reps.html', context=context)
 
 
-
 @login_required
 def workout_summary_calendar(request, year=None):
     if year is None:
@@ -483,8 +473,3 @@ def workout_summary_calendar(request, year=None):
     }
 
     return render(request, 'workouts_calendar.html', context=context)
-
-
-
-
-

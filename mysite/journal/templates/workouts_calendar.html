@@ -5,81 +5,78 @@
 {% block "content" %}
 
 <div>
-  <table>
-  <tr>
-    <th class="grey-box">Completed Workouts:</th>
-    <td class="blue-box">
-      <a href="{% url 'workouts' %}" class="link-style-info">{{ num_workouts }}</a>
-    </td>
-    <td>&nbsp;&nbsp;&nbsp;</td>
-    <th class="grey-box">Completed Exercises:</th>
-    <td class="blue-box">
-      <a href="{% url 'exercises' %}" class="link-style-info">{{ num_exercises }}</a>
-    </td>
-  </tr>
-</table>
-
-
+    <table>
+        <tr>
+            <th class="grey-box">Completed Workouts:</th>
+            <td class="blue-box">
+                <a href="{% url 'workouts' %}" class="link-style-info">{{ num_workouts }}</a>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <th class="grey-box">Completed Exercises:</th>
+            <td class="blue-box">
+                <a href="{% url 'exercises' %}" class="link-style-info">{{ num_exercises }}</a>
+            </td>
+        </tr>
+    </table>
 </div>
-
 
 <hr>
 
 <div>
-
-
-<div class="custom-titles-container">
-    <h2>
-        <strong class="custom-titles-heading">
-            <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'-1' %}" class="link-style-year">Previous > </a>
-            Workout Calendar {{ calendar_months.0.year }}
-            <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'1' %}" class="link-style-year" style="margin-left: 80px"> < Next</a>
-        </strong>
-    </h2>
-</div>
-
-  <br>
-
-<div class="calendar-grid">
-{% for month in calendar_months %}
-  <div class="calendar-month">
-  <h4>{{ month.month }}</h4>
-  <table>
-    <thead>
-
-      <tr>
-        <th class="weekday">Mon</th>
-        <th class="weekday">Tue</th>
-        <th class="weekday">Wed</th>
-        <th class="weekday">Thu</th>
-        <th class="weekday">Fri</th>
-        <th class="weekday">Sat</th>
-        <th class="weekday">Sun</th>
-      </tr>
-    </thead>
-    <tbody>
-  {% for row in month.rows %}
-    <tr>
-      {% for day, is_marked, workout_id in row %}
-        <td class="day-cell">
-          {% if day %}
-            {% if is_marked %}
-              <a href="{% url 'workout' workout_id=workout_id %}?date={{ month.year }}-{{ month.month }}-{{ day }}" class="link-style-calendar">{{ day }}</a>
-            {% else %}
-              {{ day }}
-            {% endif %}
-          {% endif %}
-        </td>
-      {% endfor %}
-    </tr>
-  {% endfor %}
-</tbody>
-
-  </table>
+    <div class="custom-titles-container">
+        <h2>
+            <strong class="custom-titles-heading">
+                <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'-1' %}"
+                   class="link-style-year">Previous > </a>
+                Workout Calendar {{ calendar_months.0.year }}
+                <a href="{% url 'workout_summary_calendar' year=calendar_months.0.year|add:'1' %}"
+                   class="link-style-year" style="margin-left: 80px"> < Next</a>
+            </strong>
+        </h2>
     </div>
-{% endfor %}
+
+    <br>
+
+    <div class="calendar-grid">
+        {% for month in calendar_months %}
+        <div class="calendar-month">
+            <h4>{{ month.month }}</h4>
+            <table>
+                <thead>
+
+                <tr>
+                    <th class="weekday">Mon</th>
+                    <th class="weekday">Tue</th>
+                    <th class="weekday">Wed</th>
+                    <th class="weekday">Thu</th>
+                    <th class="weekday">Fri</th>
+                    <th class="weekday">Sat</th>
+                    <th class="weekday">Sun</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in month.rows %}
+                <tr>
+                    {% for day, is_marked, workout_id in row %}
+                    <td class="day-cell">
+                        {% if day %}
+                        {% if is_marked %}
+                        <a href="{% url 'workout' workout_id=workout_id %}?date={{ month.year }}-{{ month.month }}-{{ day }}"
+                           class="link-style-calendar">{{ day }}</a>
+                        {% else %}
+                        {{ day }}
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-  </div>
 
 <style>
 .grey-box {
@@ -97,74 +94,75 @@
   border-radius: 5px;
   text-align: left;
 }
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
 
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
+.custom-titles-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(1vh - 1px);
+  background-color: #F4F4F4;
+}
 
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-  }
+.custom-titles-heading {
+  text-align: center;
+  font-family: Times New Roman, serif;
+  font-size: 35px;
+  color: #AB982D;
+}
 
-  .calendar-month {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    border: 1px solid #ccc;
-    padding: 5px;
-    text-align: center;
-  }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+ }
 
-  .calendar-month h4 {
-    margin: 0;
-    background-color: black;
-    color: white;
-    padding: 5px;
-    display: inline-block;
-    width: 265px;
-    margin-top: 1px;
-  }
+.calendar-month {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}
 
-  .weekday {
-    background-color: #f2f2f2;
-    text-align: center;
-    padding: 5px;
-  }
+.calendar-month h4 {
+  margin: 0;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  display: inline-block;
+  width: 265px;
+  margin-top: 1px;
+}
 
-  .day-cell {
-    text-align: center;
-    padding: 1px;
-    vertical-align: middle;
-  }
+.weekday {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 5px;
+}
 
-  .link-style-calendar {
+.day-cell {
+  text-align: center;
+  padding: 1px;
+  vertical-align: middle;
+}
+
+.link-style-calendar {
   color: #cd32bf;
   font-weight: bold;
-  }
+}
 
-  .link-style-calendar:hover {
+.link-style-calendar:hover {
   color: #a42899;
 }
 
 .link-style-info {
   color: #7d2ad5;
   font-weight: bold;
-  }
+}
 
-  .link-style-info:hover {
+.link-style-info:hover {
   color: #6120a5;
 }
 
@@ -173,15 +171,11 @@
   font-family: Times New Roman, serif;
   font-size: 12px;
   margin-right: 100px
-  }
-
-  .link-style-year:hover {
-  color: #686c70;
 }
 
+.link-style-year:hover {
+  color: #686c70;
+}
 </style>
-
-
-
 
 {% endblock %}
