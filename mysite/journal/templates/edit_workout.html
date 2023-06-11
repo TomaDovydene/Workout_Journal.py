@@ -26,7 +26,7 @@
 <div class="form-row">
   <div class="form-row">
     <label for="date" class="custom-label">Date:</label>
-    <input type="date" id="date" name="date" value="{{ workout.date }}" class="custom-input">
+    <input type="date" id="date" name="date" value="{{ workout.date|date:'Y-m-d' }}" class="custom-input">
   </div>
   </div>
 
