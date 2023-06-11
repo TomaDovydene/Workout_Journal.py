@@ -340,11 +340,11 @@ def personal_records_by_weight(request):
         if exercise.exercise_name:
             exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
-                exercise_name__name__icontains=exercise.exercise_name.name
-            ).order_by('-weight', '-rep')
+                exercise_name__name__iexact=exercise.exercise_name.name
+            ).order_by('-weight')
 
             if exercise_instances:
-                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:3]
+                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:1]
                 workouts = Workout.objects.filter(id__in=workout_ids)
 
                 top_weight_workouts[exercise.exercise_name.name] = []
@@ -352,7 +352,7 @@ def personal_records_by_weight(request):
                 for workout in workouts:
                     exercises_in_workout = exercise_instances.filter(workout_id=workout.id)
                     top_weight_workouts[exercise.exercise_name.name].extend(
-                        [(workout, exercise) for exercise in exercises_in_workout[:3]])
+                        [(workout, exercise) for exercise in exercises_in_workout[:1]])
 
     context = {
         'top_weight_workouts': top_weight_workouts,
@@ -378,11 +378,11 @@ def personal_records_by_reps(request):
         if exercise.exercise_name:
             exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
-                exercise_name__name__icontains=exercise.exercise_name.name
-            ).order_by('-rep', '-weight')
+                exercise_name__name__iexact=exercise.exercise_name.name
+            ).order_by('-rep')
 
             if exercise_instances:
-                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:3]
+                workout_ids = exercise_instances.values_list('workout_id', flat=True).distinct()[:1]
                 workouts = Workout.objects.filter(id__in=workout_ids)
 
                 top_rep_workouts[exercise.exercise_name.name] = []
@@ -390,7 +390,7 @@ def personal_records_by_reps(request):
                 for workout in workouts:
                     exercises_in_workout = exercise_instances.filter(workout_id=workout.id)
                     top_rep_workouts[exercise.exercise_name.name].extend(
-                        [(workout, exercise) for exercise in exercises_in_workout[:3]])
+                        [(workout, exercise) for exercise in exercises_in_workout[:1]])
 
     context = {
         'top_rep_workouts': top_rep_workouts,
