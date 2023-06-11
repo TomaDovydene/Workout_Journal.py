@@ -7,32 +7,31 @@
 {% block "content" %}
 {% load static %}
 
-
 <div class="custom-titles-container">
     <h2>
         {% if exercise_name.pic %}
-<img src="{{ exercise_name.pic.url }}" style="margin-bottom: 10px; max-width: 10%">
-{% else %}
-<img src="{% static 'img/no-exercise-image.png' %}" class="card-img-top" style="width:60px;height:60px;">
-{% endif %}
+        <img src="{{ exercise_name.pic.url }}" style="margin-bottom: 10px; max-width: 10%">
+        {% else %}
+        <img src="{% static 'img/no-exercise-image.png' %}" class="card-img-top" style="width:60px;height:60px;">
+        {% endif %}
         <strong class="custom-titles-heading">{{ exercise_name.name }} Information</strong>
     </h2>
 </div>
+
 <br>
 
 <div style="display: flex; justify-content: space-between;">
-<form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}" class="search-form">
-    <div class="search-input">
-        <input type="text" name="search" placeholder="Enter date or title" class="search-field">
+    <form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}" class="search-form">
+        <div class="search-input">
+            <input type="text" name="search" placeholder="Enter date or title" class="search-field">
         </div>
-    <div>
-        <button type="submit" class="search-button">Search</button>
-    </div>
-</form>
-    </div>
+        <div>
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+</div>
 
 <br>
-
 
 <table class="table table-bordered table-striped" id="workout-table">
     <colgroup>
@@ -56,16 +55,16 @@
     </tr>
     </thead>
 
-     <tbody>
+    <tbody>
     {% for workout, info in workout_info.items %}
     {% for exercise in info.exercises %}
     <tr>
         <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
         <td>{{ workout.date|date:'Y-m-d' }}</td>
-        <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
+        <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>
-        <td>{{ exercise.sum|stringformat:".2f"  }} kg</td>
+        <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
         <td style="max-width: 300px; overflow: auto; font-style: italic; font-size: smaller">{{ exercise.notes }}</td>
     </tr>
     {% endfor %}
@@ -74,77 +73,73 @@
         <td colspan="7">No workouts found.</td>
     </tr>
     {% endfor %}
-
     </tbody>
 </table>
-
 
 <script src="{% static 'js/sort-table.js' %}"></script>
 
 <style>
-    .sort-icon {
-  display: inline;
-  width: 10px;
-  height: 10px;
-  margin-left: 5px;
-  margin-bottom: -2px;
-  border-top: 4px solid #fff;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  color: red;
+.sort-icon {
+    display: inline;
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+    margin-bottom: -2px;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    color: red;
 }
 
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+}
 
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
 
-     .search-form {
+.search-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-  }
-
-  .search-input {
-    margin-right: 10px;
-  }
-
-  .search-field {
-      padding: 3px 25px;
-      border: 1px solid #657d86;
-      border-radius: 2px;
-    }
-
-    .search-button {
-      padding: 3px 6px;
-      background-color: #DFDCDB;
-      border: none;
-      color: black;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .link-style-table {
-  color: #917143;
-  font-weight: bold;
-  }
-
-  .link-style-table:hover {
-  color: #5b472a;
 }
 
-</style>
+.search-input {
+    margin-right: 10px;
+}
 
+.search-field {
+    padding: 3px 25px;
+    border: 1px solid #657d86;
+    border-radius: 2px;
+}
+
+.search-button {
+    padding: 3px 6px;
+    background-color: #DFDCDB;
+    border: none;
+    color: black;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.link-style-table {
+    color: #917143;
+    font-weight: bold;
+}
+
+.link-style-table:hover {
+    color: #5b472a;
+}
+</style>
 
 {% endblock %}

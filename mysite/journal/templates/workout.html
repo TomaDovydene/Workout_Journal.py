@@ -5,151 +5,155 @@
 {% block "content" %}
 
 <div class="workout-details">
-  <ul>
-    <li><strong>Title: </strong><span class="workout-title">{{ workout.title }}</span></li>
-    <li><strong>Date: </strong>{{ workout.date|date:'Y-m-d' }}</li>
-    <li><strong>Notes: </strong><span style="font-style: italic; font-size: smaller">{{ workout.notes }}</span></li>
-  </ul>
+    <ul>
+        <li><strong>Title: </strong><span class="workout-title">{{ workout.title }}</span></li>
+        <li><strong>Date: </strong>{{ workout.date|date:'Y-m-d' }}</li>
+        <li><strong>Notes: </strong><span style="font-style: italic; font-size: smaller">{{ workout.notes }}</span></li>
+    </ul>
 </div>
 
-    <hr>
+<hr>
 
 <div class="custom-titles-container">
     <h2>
         <strong class="custom-titles-heading">Workout with Exercises List</strong>
     </h2>
 </div>
-        <br>
-        <div style="display: flex; justify-content: flex-end;">
+
+<br>
+
+<div style="display: flex; justify-content: flex-end;">
     <a href="{% url 'add_exercise' workout.id %}" class="btn custom-btn-add">Add Exercise</a>
 </div>
-        <br>
+
+<br>
 
 <table class="table table-bordered table-striped">
     <colgroup>
-            <col style="width: 23%;">
-            <col style="width: 12%;">
-            <col style="width: 10%;">
-            <col style="width: 10%;">
-            <col style="width: 35%;">
-            <col style="width: 5%;">
-            <col style="width: 5%;">
-        </colgroup>
-  <thead class="table-dark">
+        <col style="width: 23%;">
+        <col style="width: 12%;">
+        <col style="width: 10%;">
+        <col style="width: 10%;">
+        <col style="width: 35%;">
+        <col style="width: 5%;">
+        <col style="width: 5%;">
+    </colgroup>
+    <thead class="table-dark">
     <tr>
-      <th>Exercise Name</th>
-      <th>Exercise Weight</th>
-      <th>Exercise Sets</th>
-      <th>Exercise Reps</th>
-      <th>Notes</th>
-      <th>Edit</th>
-      <th>Delete</th>
+        <th>Exercise Name</th>
+        <th>Exercise Weight</th>
+        <th>Exercise Sets</th>
+        <th>Exercise Reps</th>
+        <th>Notes</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {% for exercise in workout.exercises.all %}
-      <tr>
+    <tr>
         <td>
-        <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise.get_name }}</a>
-      </td>
-        <td>{{ exercise.weight|stringformat:".2f"  }} kg</td>
+            <a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">
+                {{ exercise.get_name }}</a>
+        </td>
+        <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
         <td>{{ exercise.set }} sets</td>
         <td>{{ exercise.rep }} reps</td>
-         <td style="max-width: 150px; overflow: auto; font-style: italic; font-size: smaller;">{{ exercise.notes }}</td>
+        <td style="max-width: 150px; overflow: auto; font-style: italic; font-size: smaller;">{{ exercise.notes }}</td>
         <td>
-          <a href="{% url 'edit_exercise' exercise.id %}" class="btn custom-btn-edit">Edit</a>
+            <a href="{% url 'edit_exercise' exercise.id %}" class="btn custom-btn-edit">Edit</a>
         </td>
         <td>
-          <a href="{% url 'delete_exercise' exercise.id %}" class="btn custom-btn-delete">Delete</a>
+            <a href="{% url 'delete_exercise' exercise.id %}" class="btn custom-btn-delete">Delete</a>
         </td>
-      </tr>
+    </tr>
     {% endfor %}
-  </tbody>
+    </tbody>
 </table>
 
 <style>
 .workout-details {
-  font-family: Times New Roman, serif;
-  font-size: 18px;
-  color: #333;
-  padding: 10px;
-  background-color: #F4F4F4;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    color: #333;
+    padding: 10px;
+    background-color: #F4F4F4;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .workout-details ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .workout-details li {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .workout-details strong {
-  font-weight: bold;
-  color: #923973;
+    font-weight: bold;
+    color: #923973;
 }
 
 .workout-details .workout-title {
-  font-weight: bold;
+    font-weight: bold;
 }
 
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-
-    .custom-btn-add {
-  background-color: #7B91C6;
-  border-color: #7B91C6;
-  color: white;
-    }
-    .custom-btn-add:hover {
-  background-color: #7B91C6;
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
 }
 
-  .custom-btn-delete {
-  background-color: #D0544E;
-  border-color: #D0544E;
-  color: white;
-    }
-    .custom-btn-delete:hover {
-  background-color: #D0544E;
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
 }
 
-    .custom-btn-edit {
-  background-color: #899EA6;
-  border-color: #899EA6;
-  color: white;
-    }
-    .custom-btn-edit:hover {
-  background-color: #899EA6;
+.custom-btn-add {
+    background-color: #7B91C6;
+    border-color: #7B91C6;
+    color: white;
 }
 
-    .link-style-table {
-  color: #917143;
-  font-weight: bold;
-  }
-
-  .link-style-table:hover {
-  color: #5b472a;
+.custom-btn-add:hover {
+    background-color: #7B91C6;
 }
 
+.custom-btn-delete {
+    background-color: #D0544E;
+    border-color: #D0544E;
+    color: white;
+}
+
+.custom-btn-delete:hover {
+    background-color: #D0544E;
+}
+
+.custom-btn-edit {
+    background-color: #899EA6;
+    border-color: #899EA6;
+    color: white;
+}
+
+.custom-btn-edit:hover {
+    background-color: #899EA6;
+}
+
+.link-style-table {
+    color: #917143;
+    font-weight: bold;
+}
+
+.link-style-table:hover {
+    color: #5b472a;
+}
 </style>
 
-
 {% endblock %}
-

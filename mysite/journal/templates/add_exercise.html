@@ -3,6 +3,7 @@
 {% block "title" %}Add exercise{% endblock %}
 
 {% load crispy_forms_tags %}
+
 {% load static %}
 
 {% block "content" %}
@@ -13,7 +14,9 @@
         <fieldset class="form-group">
             <legend class="custom-legend">Add an Exercise</legend>
             <hr class="custom-line">
+
             <br>
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     {{ form.exercise_name|as_crispy_field }}
@@ -46,29 +49,30 @@
 
 <style>
 .custom-legend {
-        font-family: Times New Roman, serif;
-        font-size: 24px;
-        color: #AB982D;
-        padding-bottom: 1px;
-        margin-bottom: 1px;
-    }
-
-    .custom-line {
-        border: none;
-        border-top: 4px solid #2D40AB;
-        margin: 0;
-    }
-
-    .custom-btn-save {
-  background-color: #7B91C6;
-  border-color: #7B91C6;
-  color: white;
-    }
-    .custom-btn-save:hover {
-  background-color: #7B91C6;
+    font-family: Times New Roman, serif;
+    font-size: 24px;
+    color: #AB982D;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
 }
 
-    .form-row {
+.custom-line {
+    border: none;
+    border-top: 4px solid #2D40AB;
+    margin: 0;
+}
+
+.custom-btn-save {
+    background-color: #7B91C6;
+    border-color: #7B91C6;
+    color: white;
+}
+
+.custom-btn-save:hover {
+    background-color: #7B91C6;
+}
+
+.form-row {
     margin-bottom: 10px;
 }
 

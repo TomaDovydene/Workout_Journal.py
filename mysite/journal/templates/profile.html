@@ -6,27 +6,46 @@
 
 {% block "content" %}
 
+<div class="content-section">
+    <div class="media">
+        <img src="{{ user.profile.photo.url }}" class="image-cropper">
+
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+        </div>
+
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="custom-legend">Profile Info</legend>
+            <hr class="custom-line">
+            <br>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn custom-btn-edit" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+
 <style>
-    .custom-legend {
-        font-family: Times New Roman, serif;
-        font-size: 24px;
-        color: #AB982D;
-        padding-bottom: 1px;
-        margin-bottom: 1px;
-    }
+.custom-legend {
+    font-family: Times New Roman, serif;
+    font-size: 24px;
+    color: #AB982D;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
+}
 
-    .custom-line {
-        border: none;
-        border-top: 4px solid #2D40AB;
-        margin: 0;
-    }
-</style>
+.custom-line {
+    border: none;
+    border-top: 4px solid #2D40AB;
+    margin: 0;
+}
 
-    <div class="content-section">
-      <div class="media">
-
-
-          <style>
 .image-cropper {
     width: 100px;
     height: 100px;
@@ -34,26 +53,17 @@
     overflow: hidden;
     border-radius: 50%;
 }
-</style>
-<img src="{{ user.profile.photo.url }}" class="image-cropper">
 
-          <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
-        </div>
-      </div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="custom-legend">Profile Info</legend>
-            <hr class="custom-line">
-            <br>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
-            </div>
-        </form>
-    </div>
+.custom-btn-edit {
+    background-color: #899EA6;
+    border-color: #899EA6;
+    color: white;
+}
+
+.custom-btn-edit:hover {
+    background-color: #899EA6;
+}
+
+</style>
+
 {% endblock %}

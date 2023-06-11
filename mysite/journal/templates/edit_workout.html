@@ -9,88 +9,82 @@
         <strong class="custom-titles-heading">Edit Workout</strong>
     </h2>
 </div>
+
 <br>
 
 <form method="POST" class="custom-form">
-  {% csrf_token %}
-
-
+    {% csrf_token %}
     <div class="form-row">
-    <div class="form-group">
-      <label for="title" class="custom-label">Title:</label>
-      <input type="text" id="title" name="title" value="{{ workout.title }}" class="custom-input">
-  </div>
-
-<div class="form-row spacer"></div>
-
-<div class="form-row">
-  <div class="form-row">
-    <label for="date" class="custom-label">Date:</label>
-    <input type="date" id="date" name="date" value="{{ workout.date|date:'Y-m-d' }}" class="custom-input">
-  </div>
-  </div>
-
-
-    <div class="form-row">
-    <div class="form-group">
-      <label for="notes" class="custom-label">Notes:</label>
-      <textarea id="notes" name="notes" class="custom-input">{{ workout.notes }}</textarea>
+        <div class="form-group">
+            <label for="title" class="custom-label">Title:</label>
+            <input type="text" id="title" name="title" value="{{ workout.title }}" class="custom-input">
+        </div>
+        <div class="form-row spacer"></div>
+        <div class="form-row">
+            <div class="form-row">
+                <label for="date" class="custom-label">Date:</label>
+                <input type="date" id="date" name="date" value="{{ workout.date|date:'Y-m-d' }}" class="custom-input">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="notes" class="custom-label">Notes:</label>
+                <textarea id="notes" name="notes" class="custom-input">{{ workout.notes }}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn custom-btn-edit">Update</button>
     </div>
-  </div>
-
-  <button type="submit" class="btn custom-btn-edit">Update</button>
-</div>
 </form>
 
+<style>
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+}
 
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
 
- <style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-
-    .custom-label {
+.custom-label {
     font-weight: bold;
     margin-right: 5px;
     font-family: Times New Roman, serif;
     font-size: 18px;
     color: #923973;
-  }
+}
 
-  .custom-input {
+.custom-input {
     padding: 7px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-family: Times New Roman, serif;
     font-size: 18px;
     color: #333;
-  }
-
-  .form-row {
-    margin-bottom: 10px;
-  }
-  .spacer {
-  margin-bottom: 15px;
 }
 
-    .custom-btn-edit {
-  background-color: #899EA6;
-  border-color: #899EA6;
-  color: white;
-    }
-    .custom-btn-edit:hover {
-  background-color: #899EA6;
+.form-row {
+    margin-bottom: 10px;
+}
+
+.spacer {
+    margin-bottom: 15px;
+}
+
+.custom-btn-edit {
+    background-color: #899EA6;
+    border-color: #899EA6;
+    color: white;
+}
+
+.custom-btn-edit:hover {
+    background-color: #899EA6;
 }
 </style>
 

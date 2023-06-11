@@ -11,174 +11,174 @@
         <strong class="custom-titles-heading">Exercises List</strong>
     </h2>
 </div>
+
 <br>
 
 <div style="display: flex; justify-content: space-between;">
-<form method="GET" action="{% url 'exercises' %}" class="search-form">
-  <div class="search-input">
-  <input type="text" name="query" placeholder="Enter exercise name" value="{{ request.GET.q }}" class="search-field">
-      </div>
-    <div>
-    <button type="submit" class="search-button">Search</button>
+    <form method="GET" action="{% url 'exercises' %}" class="search-form">
+        <div class="search-input">
+            <input type="text" name="query" placeholder="Enter exercise name" value="{{ request.GET.q }}"
+                   class="search-field">
+        </div>
+
+      <div>
+            <button type="submit" class="search-button">Search</button>
+        </div>
+
+    </form>
 </div>
-</form>
-  </div>
 
 {% if exercises %}
 <div class="exercise-container">
-<div class="row">
-  {% for exercise_group in exercises %}
-    <div class="col-md-4">
-      <div class="card mb-2">
-        {% with exercise=exercise_group.0 %}
-          {% if exercise.exercise_name.pic %}
-        <div class="image-container">
-            <img src="{{ exercise.exercise_name.pic.url }}" class="image-box">
-          </div>
-          {% else %}
-            <img src="{% static 'img/no-exercise-image.png' %}" class="no-image">
-          {% endif %}
-          <div class="centre-box">
-            <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style">{{ exercise.exercise_name }}</a></h6>
-          </div>
-        {% endwith %}
-      </div>
+    <div class="row">
+        {% for exercise_group in exercises %}
+        <div class="col-md-4">
+            <div class="card mb-2">
+                {% with exercise=exercise_group.0 %}
+                {% if exercise.exercise_name.pic %}
+                <div class="image-container">
+                    <img src="{{ exercise.exercise_name.pic.url }}" class="image-box">
+                </div>
+                {% else %}
+                <img src="{% static 'img/no-exercise-image.png' %}" class="no-image">
+                {% endif %}
+                <div class="centre-box">
+                    <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}"
+                                                 class="link-style">{{ exercise.exercise_name }}</a></h6>
+                </div>
+                {% endwith %}
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  {% endfor %}
-</div>
 </div>
 {% else %}
 <p>There is no history of exercises</p>
 {% endif %}
 
 <style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+}
 
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
 
-    .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100px;
-        margin-top: 25px;
-        margin-bottom: 10px;
-    }
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
 
-    .image-box {
-        width: 40%;
-        height: 110px;
-        object-fit: cover;
-        display: block;
-        margin: 0 auto;
-    }
+.image-box {
+    width: 40%;
+    height: 110px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
 
-    .no-image {
+.no-image {
     object-fit: contain;
     width: 40%;
-        height: 90px;
-        object-fit: cover;
-        display: block;
-        margin: 0 auto;
-        margin-top: 20px;
-        margin-bottom: 10px;
+    height: 90px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
-  .centre-box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
-    .card {
-  height: 110%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #D6D2C4;
-  border-radius: 7px;
-  background-color: #EBE9E2;
+.centre-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
-    .exercise-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 0 auto;
-        width: 100%;
-        max-width: 100%;
-        padding: 0 15px;
-    }
-
-    .row {
-        margin: 0 -15px;
-    }
-
-    .col-md-4 {
-        padding: 15px;
-        width: 250px;
-        height: 200px;
-  }
-
-
-
-    .exercise-name {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 17px;
-        color: #AB982D;
-         margin-top: auto;
-
-    }
-
-    .link-style {
-  color: #6b644a;
-  font-weight: bold;
-  }
-
-  .link-style:hover {
-  color: #373426;
+.card {
+    height: 110%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #D6D2C4;
+    border-radius: 7px;
+    background-color: #EBE9E2;
 }
 
-    .search-form {
+.exercise-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+.row {
+    margin: 0 -15px;
+}
+
+.col-md-4 {
+    padding: 15px;
+    width: 250px;
+    height: 200px;
+}
+
+.exercise-name {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 17px;
+    color: #AB982D;
+    margin-top: auto;
+}
+
+.link-style {
+    color: #6b644a;
+    font-weight: bold;
+}
+
+.link-style:hover {
+    color: #373426;
+}
+
+.search-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-  }
+}
 
-  .search-input {
+.search-input {
     margin-right: 10px;
-  }
+}
 
-  .search-field {
-      padding: 3px 25px;
-      border: 1px solid #657d86;
-      border-radius: 2px;
-    }
+.search-field {
+    padding: 3px 25px;
+    border: 1px solid #657d86;
+    border-radius: 2px;
+}
 
-    .search-button {
-      padding: 3px 6px;
-      background-color: #DFDCDB;
-      border: none;
-      color: black;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-
+.search-button {
+    padding: 3px 6px;
+    background-color: #DFDCDB;
+    border: none;
+    color: black;
+    border-radius: 2px;
+    cursor: pointer;
+}
 </style>
 
 {% endblock %}

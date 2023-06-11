@@ -14,21 +14,22 @@
     </h2>
 </div>
 
-
 <br>
+
 <div style="display: flex; justify-content: space-between;">
-<form method="GET" action="{% url 'workouts' %}" class="search-form">
-    <div class="search-input">
-  <input type="text" name="query" placeholder="Enter date or title" value="{{ query }}" class="search-field">
-  </div>
-    <div>
-        <button type="submit" class="search-button">Search</button>
+    <form method="GET" action="{% url 'workouts' %}" class="search-form">
+        <div class="search-input">
+            <input type="text" name="query" placeholder="Enter date or title" value="{{ query }}" class="search-field">
         </div>
-</form>
+        <div>
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
     <div>
-    <a href="{% url 'add_workout' %}" class="btn custom-btn-add">Add Workout</a>
+        <a href="{% url 'add_workout' %}" class="btn custom-btn-add">Add Workout</a>
+    </div>
 </div>
-</div>
+
 <br>
 
 <table class="table table-bordered table-striped">
@@ -59,7 +60,7 @@
     </tr>
     {% empty %}
     <tr>
-      <td colspan="5">No workouts found.</td>
+        <td colspan="5">No workouts found.</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -68,95 +69,97 @@
 <script src="{% static 'js/sort-workouts_table.js' %}"></script>
 
 <style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-
-    .sort-icon {
-  display: inline;
-  width: 10px;
-  height: 10px;
-  margin-left: 5px;
-  margin-bottom: -2px;
-  border-top: 4px solid #fff;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  color: red;
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
 }
 
-    .custom-btn-add {
-  background-color: #7B91C6;
-  border-color: #7B91C6;
-  color: white;
-    }
-    .custom-btn-add:hover {
-  background-color: #7B91C6;
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
 }
 
-    .custom-btn-delete {
-  background-color: #D0544E;
-  border-color: #D0544E;
-  color: white;
-    }
-    .custom-btn-delete:hover {
-  background-color: #D0544E;
+.sort-icon {
+    display: inline;
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+    margin-bottom: -2px;
+    border-top: 4px solid #fff;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    color: red;
 }
 
-    .custom-btn-edit {
-  background-color: #899EA6;
-  border-color: #899EA6;
-  color: white;
-    }
-    .custom-btn-edit:hover {
-  background-color: #899EA6;
+.custom-btn-add {
+    background-color: #7B91C6;
+    border-color: #7B91C6;
+    color: white;
 }
 
-    .search-form {
+.custom-btn-add:hover {
+    background-color: #7B91C6;
+}
+
+.custom-btn-delete {
+    background-color: #D0544E;
+    border-color: #D0544E;
+    color: white;
+}
+
+.custom-btn-delete:hover {
+    background-color: #D0544E;
+}
+
+.custom-btn-edit {
+    background-color: #899EA6;
+    border-color: #899EA6;
+    color: white;
+}
+
+.custom-btn-edit:hover {
+    background-color: #899EA6;
+}
+
+.search-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-  }
-
-  .search-input {
-    margin-right: 10px;
-  }
-
-  .search-field {
-      padding: 3px 25px;
-      border: 1px solid #657d86;
-      border-radius: 2px;
-    }
-
-    .search-button {
-      padding: 3px 6px;
-      background-color: #DFDCDB;
-      border: none;
-      color: black;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .link-style-table {
-  color: #917143;
-  font-weight: bold;
-  }
-
-  .link-style-table:hover {
-  color: #5b472a;
 }
 
+.search-input {
+    margin-right: 10px;
+}
+
+.search-field {
+    padding: 3px 25px;
+    border: 1px solid #657d86;
+    border-radius: 2px;
+}
+
+.search-button {
+    padding: 3px 6px;
+    background-color: #DFDCDB;
+    border: none;
+    color: black;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.link-style-table {
+    color: #917143;
+    font-weight: bold;
+}
+
+.link-style-table:hover {
+    color: #5b472a;
+}
 </style>
 
 {% endblock %}

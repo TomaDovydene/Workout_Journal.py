@@ -12,18 +12,19 @@
     </h2>
 </div>
 
-
 <br>
+
 <div style="display: flex; justify-content: space-between;">
-<form method="GET" action="{% url 'personal_records_by_weight' %}" class="search-form">
-  <div class="search-input">
-    <input type="text" name="query" placeholder="Enter exercise name" value="{{ query }}" class="search-field">
-  </div>
-    <div>
-    <button type="submit" class="search-button">Search</button>
- </div>
-</form>
-   </div>
+    <form method="GET" action="{% url 'personal_records_by_weight' %}" class="search-form">
+        <div class="search-input">
+            <input type="text" name="query" placeholder="Enter exercise name" value="{{ query }}" class="search-field">
+        </div>
+        <div>
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+</div>
+
 <br>
 
 <table class="table table-bordered">
@@ -37,112 +38,114 @@
         <col style="width: 10%;">
     </colgroup>
     <thead class="table-dark">
-        <tr>
-            <th>Exercise Name</th>
-            <th>Workout Title</th>
-            <th>Workout Date</th>
-            <th>Exercise Weight</th>
-            <th>Exercise Sets</th>
-            <th>Exercise Reps</th>
-            <th>Exercise Volume</th>
-        </tr>
+    <tr>
+        <th>Exercise Name</th>
+        <th>Workout Title</th>
+        <th>Workout Date</th>
+        <th>Exercise Weight</th>
+        <th>Exercise Sets</th>
+        <th>Exercise Reps</th>
+        <th>Exercise Volume</th>
+    </tr>
     </thead>
     <tbody>
-        {% for exercise_name, workouts in top_weight_workouts.items %}
-        <tr class="{% cycle 'exercise-color1' 'exercise-color2' as row_color %}"></tr>
-      <tr class="separator-row">
+    {% for exercise_name, workouts in top_weight_workouts.items %}
+    <tr class="{% cycle 'exercise-color1' 'exercise-color2' as row_color %}"></tr>
+    <tr class="separator-row">
         <td colspan="7"></td>
-      </tr>
-        {% for workout, exercise in workouts %}
-        {% if exercise.exercise_name.name == exercise_name %}
-        <tr class="{{ row_color }}">
-            <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">{{ exercise.exercise_name.name }}</a></td>
-            <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
-            <td>{{ workout.date|date:'Y-m-d' }}</td>
-            <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
-            <td>{{ exercise.set }} sets</td>
-            <td>{{ exercise.rep }} reps</td>
-            <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
-        </tr>
-        {% endif %}
-        {% empty %}
-        {% if workouts %}
-        <tr>
-            <td colspan="7">No workouts found.</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-        {% empty %}
-        <tr>
-            <td colspan="7">No workouts found.</td>
-        </tr>
-        {% endfor %}
+    </tr>
+    {% for workout, exercise in workouts %}
+    {% if exercise.exercise_name.name == exercise_name %}
+    <tr class="{{ row_color }}">
+        <td><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}" class="link-style-table">
+            {{ exercise.exercise_name.name }}</a></td>
+        <td><a href="{% url 'workout' workout.id %}" class="link-style-table">{{ workout.title }}</a></td>
+        <td>{{ workout.date|date:'Y-m-d' }}</td>
+        <td>{{ exercise.weight|stringformat:".2f" }} kg</td>
+        <td>{{ exercise.set }} sets</td>
+        <td>{{ exercise.rep }} reps</td>
+        <td>{{ exercise.sum|stringformat:".2f" }} kg</td>
+    </tr>
+    {% endif %}
+    {% empty %}
+    {% if workouts %}
+    <tr>
+        <td colspan="7">No workouts found.</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    {% empty %}
+    <tr>
+        <td colspan="7">No workouts found.</td>
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 
 <style>
 .separator-row {
-  background-color: #e5e5e7;
+    background-color: #e5e5e7;
     height: 0;
-  }
+}
 
-  .exercise-color1 {
+.exercise-color1 {
     background-color: #C5C3D8;
-  }
+}
 
-  .exercise-color2 {
+.exercise-color2 {
     background-color: #D8C3CB;
-  }
+}
 
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+}
 
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
 
-    .search-form {
+.search-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-  }
-
-  .search-input {
-    margin-right: 10px;
-  }
-
-  .search-field {
-      padding: 3px 25px;
-      border: 1px solid #657d86;
-      border-radius: 2px;
-    }
-
-    .search-button {
-      padding: 3px 6px;
-      background-color: #DFDCDB;
-      border: none;
-      color: black;
-      border-radius: 2px;
-      cursor: pointer;
-    }
-
-    .link-style-table {
-  color: #5d004b;
-  font-weight: bold;
-  }
-
-  .link-style-table:hover {
-  color: #320029;
 }
+
+.search-input {
+    margin-right: 10px;
+}
+
+.search-field {
+    padding: 3px 25px;
+    border: 1px solid #657d86;
+    border-radius: 2px;
+}
+
+.search-button {
+    padding: 3px 6px;
+    background-color: #DFDCDB;
+    border: none;
+    color: black;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.link-style-table {
+    color: #5d004b;
+    font-weight: bold;
+}
+
+.link-style-table:hover {
+    color: #320029;
+}
+
 </style>
 
 {% endblock %}

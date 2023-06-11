@@ -6,13 +6,15 @@
 
 {% block "content" %}
 
-    <div class="content-section">
+<div class="content-section">
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="custom-legend">Add Workout</legend>
             <hr class="custom-line">
+
             <br>
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     {{ form.title|as_crispy_field }}
@@ -32,30 +34,31 @@
 </div>
 
 <style>
-    .custom-legend {
-        font-family: Times New Roman, serif;
-        font-size: 24px;
-        color: #AB982D;
-        padding-bottom: 1px;
-        margin-bottom: 1px;
-    }
-
-    .custom-line {
-        border: none;
-        border-top: 4px solid #2D40AB;
-        margin: 0;
-    }
-
-    .custom-btn-save {
-  background-color: #7B91C6;
-  border-color: #7B91C6;
-  color: white;
-    }
-    .custom-btn-save:hover {
-  background-color: #7B91C6;
+.custom-legend {
+    font-family: Times New Roman, serif;
+    font-size: 24px;
+    color: #AB982D;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
 }
 
-    .form-row {
+.custom-line {
+    border: none;
+    border-top: 4px solid #2D40AB;
+    margin: 0;
+}
+
+.custom-btn-save {
+    background-color: #7B91C6;
+    border-color: #7B91C6;
+    color: white;
+}
+
+.custom-btn-save:hover {
+    background-color: #7B91C6;
+}
+
+.form-row {
     margin-bottom: 10px;
 }
 

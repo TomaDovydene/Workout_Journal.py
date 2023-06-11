@@ -4,55 +4,56 @@
 
 {% block "content" %}
 
-<style>
-    .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
-
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
-</style>
-
-
 <div class="custom-titles-container">
     <h2>
         <strong class="custom-titles-heading">Delete Exercise</strong>
     </h2>
 </div>
+
 <br>
 
 <p>Are you sure you want to delete the exercise: <strong>{{ exercise.get_name }}</strong>?</p>
 <form method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn custom-btn-delete">Delete</button>
+    {% csrf_token %}
+    <button type="submit" class="btn custom-btn-delete">Delete</button>
     <a href="{% url 'workout' exercise.workout.id %}" class="btn custom-btn-cancel">Cancel</a>
-  </form>
+</form>
 
 <style>
-    .custom-btn-delete {
-  background-color: #D0544E;
-  border-color: #D0544E;
-  color: white;
-    }
-    .custom-btn-delete:hover {
-  background-color: #D0544E;
+.custom-titles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
 }
 
-    .custom-btn-cancel {
-  background-color: #899EA6;
-  border-color: #899EA6;
-  color: white;
-    }
-    .custom-btn-cancel:hover {
-  background-color: #899EA6;
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
+
+.custom-btn-delete {
+    background-color: #D0544E;
+    border-color: #D0544E;
+    color: white;
+}
+
+.custom-btn-delete:hover {
+    background-color: #D0544E;
+}
+
+.custom-btn-cancel {
+    background-color: #899EA6;
+    border-color: #899EA6;
+    color: white;
+}
+
+.custom-btn-cancel:hover {
+    background-color: #899EA6;
 }
 </style>
+
 {% endblock %}

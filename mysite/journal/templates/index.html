@@ -11,39 +11,44 @@
         <strong class="custom-titles-heading">About Workout Notes</strong>
     </h2>
 </div>
+
 <br>
 
 <p class="text-about">
     Introducing the perfect solution for fitness enthusiasts
     and workout fanatics - our brand new blog site to add
-    your work outs and track your progress. This sleek
+    your workouts and track your progress. This sleek
     and user-friendly platform allows you to log in and
     easily input your daily workouts, including the type
     of exercise, number of reps and sets, and any notes or
     comments you'd like to add. With the ability to track
     your progress over time, you can easily see how far you've
     come and what areas you need to focus on to achieve your
-    fitness goals. Plus, our site offers a wide variety of
-    tips and advice from industry experts to help you optimize
-    your workouts and get the most out of your fitness routine.
+    fitness goals.
 </p>
+
 <br>
+
 <p class="text-about">
-Whether you're a seasoned athlete or just starting out
+    Whether you're a seasoned athlete or just starting out
     on your fitness journey, our blog site is the perfect
     tool to stay motivated, stay on track, and achieve your
     best possible results. So why wait? Sign up today and
     start tracking your workouts like a pro!
 </p>
+
 <br>
 <br>
+
 <div class="image-row">
     <div class="image-container">
         <img src="{% static 'about/image1.jpg' %}" alt="Image 1">
     </div>
+
     <div class="image-container">
         <img src="{% static 'about/image2.jpg' %}" alt="Image 2">
     </div>
+
     <div class="image-container">
         <img src="{% static 'about/image3.jpg' %}" alt="Image 3">
     </div>
@@ -51,49 +56,46 @@ Whether you're a seasoned athlete or just starting out
 
 <style>
 .custom-titles-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(1vh - 1px);
-        background-color: #F4F4F4;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(1vh - 1px);
+    background-color: #F4F4F4;
+}
 
-    .custom-titles-heading {
-        text-align: center;
-        font-family: Times New Roman, serif;
-        font-size: 35px;
-        color: #AB982D;
-    }
+.custom-titles-heading {
+    text-align: center;
+    font-family: Times New Roman, serif;
+    font-size: 35px;
+    color: #AB982D;
+}
 
-    .text-about {
+.text-about {
     font-size: 18px;
-  font-family: Georgia;
-  color: #333;
-  line-height: 2;
-  margin-bottom: 10px;
-  }
+    font-family: Georgia;
+    color: #333;
+    line-height: 2;
+    margin-bottom: 10px;
+}
 
-    .image-row {
-  display: flex;
-  justify-content: space-between;
+.image-row {
+    display: flex;
+    justify-content: space-between;
 }
 
 .image-container {
-  flex-basis: calc(33.33% - 10px);
-  margin-right: 10px;
+    flex-basis: calc(33.33% - 10px);
+    margin-right: 10px;
 }
 
 .image-container:last-child {
-  margin-right: 0;
+    margin-right: 0;
 }
 
 .image-container img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
-
 </style>
-
-
 
 {% endblock %}
