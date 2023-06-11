@@ -6,6 +6,8 @@ from django.urls import reverse
 from PIL import Image
 
 # Create your models here.
+
+
 class ExerciseName(models.Model):
     name = models.CharField(max_length=100, unique=True)
     pic = models.ImageField(verbose_name='Pic', upload_to='pics', null=True, blank=True)
@@ -29,24 +31,14 @@ class Exercise(models.Model):
     def __str__(self):
         return self.exercise_name.name if self.exercise_name else ''
 
-
-    # def total(self):
-    #     total = 0
-    #     exercises = self.exercises.all()
-    #     for exercise in exercises:
-    #         total += exercise.sum()
-    #     return total
-
     def get_absolute_url(self):
         return reverse('exercise_workouts', args=[str(self.id)])
 
     def get_name(self):
         return self.exercise_name
 
-
     def sum(self):
         return self.weight * self.set * self.rep
-
 
 
 class Workout(models.Model):
@@ -57,7 +49,6 @@ class Workout(models.Model):
 
     def get_absolute_url(self):
         return reverse('workout', args=[str(self.id)])
-
 
     def __str__(self):
         formatted_date = datetime.strftime(self.date, '%Y-%m-%d')
@@ -86,4 +77,3 @@ class Profile(models.Model):
             output_size = (100, 100)
             img.thumbnail(output_size)
             img.save(self.photo.path)
-
