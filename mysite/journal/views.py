@@ -15,6 +15,7 @@ from django.db.models import Sum, Q
 from datetime import date, datetime
 from calendar import monthrange
 from dateutil.relativedelta import relativedelta
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -160,6 +161,7 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
     model = Exercise
     context_object_name = 'exercises'
     template_name = 'exercises.html'
+    paginate_by = 10
 
     def get_queryset(self):
         query = self.request.GET.get('query')
@@ -168,6 +170,8 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
         if query:
             # Filter exercises by exercise name containing the search query
             queryset = queryset.filter(exercise_name__name__icontains=query)
+
+        queryset = queryset.order_by('pk')
 
         return queryset
 
@@ -334,9 +338,15 @@ def personal_records_by_weight(request):
             Q(exercise_name__name__icontains=query)
         )
 
+    exercises = exercises.order_by('exercise_name__name')
+
+    paginator = Paginator(exercises, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     top_weight_workouts = {}
 
-    for exercise in exercises:
+    for exercise in page_obj:
         if exercise.exercise_name:
             exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
@@ -357,6 +367,7 @@ def personal_records_by_weight(request):
     context = {
         'top_weight_workouts': top_weight_workouts,
         'query': query if query else '',
+        'page_obj': page_obj,
     }
 
     return render(request, 'personal_records_by_weight.html', context=context)
@@ -372,9 +383,15 @@ def personal_records_by_reps(request):
             Q(exercise_name__name__icontains=query)
         )
 
+    exercises = exercises.order_by('exercise_name__name')
+
+    paginator = Paginator(exercises, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     top_rep_workouts = {}
 
-    for exercise in exercises:
+    for exercise in page_obj:
         if exercise.exercise_name:
             exercise_instances = Exercise.objects.filter(
                 athlete=request.user,
@@ -395,6 +412,7 @@ def personal_records_by_reps(request):
     context = {
         'top_rep_workouts': top_rep_workouts,
         'query': query if query else '',
+        'page_obj': page_obj,
     }
 
     return render(request, 'personal_records_by_reps.html', context=context)
