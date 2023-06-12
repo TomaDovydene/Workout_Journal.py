@@ -19,7 +19,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class WorkoutForm(forms.ModelForm):
-    notes = forms.CharField(max_length=100, required=False, widget=forms.Textarea(attrs={'rows': 4}))
+    notes = forms.CharField(max_length=200, required=False, widget=forms.Textarea(attrs={'rows': 3}))
 
     class Meta:
         model = Workout
@@ -31,7 +31,7 @@ class WorkoutForm(forms.ModelForm):
 
 class ExerciseForm(forms.ModelForm):
     custom_exercise_name = forms.CharField(max_length=100, required=False)
-    notes = forms.CharField(max_length=100, required=False, widget=forms.Textarea(attrs={'rows': 3}))
+    notes = forms.CharField(max_length=200, required=False, widget=forms.Textarea(attrs={'rows': 3}))
     weight = forms.FloatField(required=True)
     rep = forms.IntegerField(required=True)
     set = forms.IntegerField(required=True)
