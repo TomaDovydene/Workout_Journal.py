@@ -90,7 +90,6 @@ def workouts(request):
         workouts = workouts.order_by('date')
 
     paginator = Paginator(workouts, 10)
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -173,29 +172,23 @@ class ExerciseListView(LoginRequiredMixin, generic.ListView):
         queryset = Exercise.objects.filter(athlete=self.request.user)
 
         if query:
-            # Filter exercises by exercise name containing the search query
             queryset = queryset.filter(exercise_name__name__icontains=query)
 
         queryset = queryset.order_by('pk')
-
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         exercises = context['exercises']
-
-        # Exclude exercises without exercise names
         exercises_with_names = [exercise for exercise in exercises if exercise.exercise_name]
 
-        # Group exercises by name
         grouped_exercises = []
         exercises_with_names = sorted(exercises_with_names,
-                                      key=lambda exercise: exercise.exercise_name.name)  # Sort exercises by name
+                                      key=lambda exercise: exercise.exercise_name.name)
         for name, group in itertools.groupby(exercises_with_names, key=lambda exercise: exercise.exercise_name.name):
             grouped_exercises.append(list(group))
 
         context['exercises'] = grouped_exercises
-
         return context
 
 
@@ -210,7 +203,6 @@ def edit_exercise(request, exercise_id):
         exercise.notes = request.POST['notes']
 
         if exercise.exercise_name and exercise.exercise_name.created_by_id != 1:
-            # Allow editing of exercise name for exercise names not created by user ID 1
             custom_exercise_name = request.POST.get('custom_exercise_name')
             if custom_exercise_name:
                 exercise_name, created = ExerciseName.objects.get_or_create(name=custom_exercise_name)
@@ -254,7 +246,7 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # Pass the current user to the form
+        kwargs['user'] = self.request.user
         return kwargs
 
     def form_valid(self, form):
@@ -284,15 +276,9 @@ class AddExerciseCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cre
 
 @login_required
 def exercise_workouts(request, exercise_name_id):
-    # Clean up exercise_name by stripping whitespace
-
     exercise_name = ExerciseName.objects.get(id=exercise_name_id)
     query = request.GET.get('search')
-
-    # Get the sorting parameter from the request
     sort_by = request.GET.get('sort')
-
-    # Filter the workouts based on the exercise_name
     workouts = Workout.objects.filter(
         athlete=request.user,
         exercises__exercise_name__exact=exercise_name).distinct()
@@ -303,24 +289,17 @@ def exercise_workouts(request, exercise_name_id):
             Q(date__icontains=query)
         )
 
-    # Create a dictionary to store workout information
     workout_info = {}
 
-    # Iterate over the filtered workouts
     for workout in workouts:
-        # Get the exercises for the current workout and exercise name
         exercises = workout.exercises.filter(exercise_name__exact=exercise_name)
-
-        # Calculate the total weight for the exercise in the workout
         total_weight = exercises.aggregate(Sum('weight'))['weight__sum']
 
-        # Store the workout information in the dictionary
         workout_info[workout] = {
             'total_weight': total_weight,
             'exercises': exercises
         }
 
-    # Sort the workouts based on the sorting parameter
     if sort_by == 'weight':
         workout_info = sorted(workout_info.items(), key=lambda x: x[1]['total_weight'], reverse=True)
 
@@ -329,7 +308,6 @@ def exercise_workouts(request, exercise_name_id):
         'exercise_name': exercise_name,
         'query': query if query else '',
     }
-
     return render(request, 'exercise_workouts.html', context=context)
 
 
@@ -344,7 +322,6 @@ def personal_records_by_weight(request):
         )
 
     exercises = exercises.order_by('exercise_name__name')
-
     paginator = Paginator(exercises, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -374,7 +351,6 @@ def personal_records_by_weight(request):
         'query': query if query else '',
         'page_obj': page_obj,
     }
-
     return render(request, 'personal_records_by_weight.html', context=context)
 
 
@@ -389,7 +365,6 @@ def personal_records_by_reps(request):
         )
 
     exercises = exercises.order_by('exercise_name__name')
-
     paginator = Paginator(exercises, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -419,7 +394,6 @@ def personal_records_by_reps(request):
         'query': query if query else '',
         'page_obj': page_obj,
     }
-
     return render(request, 'personal_records_by_reps.html', context=context)
 
 
@@ -433,12 +407,9 @@ def workout_summary_calendar(request, year=None):
     user = request.user
 
     num_exercises = Exercise.objects.filter(athlete=user).count()
-
     num_workouts = Workout.objects.filter(athlete=user).count()
-
     exercise_names = Exercise.objects.filter(athlete=user).values('exercise_name__name').distinct()
     num_exercise_names = exercise_names.count()
-
     num_visits = request.session.get(f'num_visits_{user.id}', 1)
     request.session[f'num_visits_{user.id}'] = num_visits + 1
 
@@ -464,7 +435,6 @@ def workout_summary_calendar(request, year=None):
             workout_id = workout_for_day.id if is_marked else None
             month_days.append((day, is_marked, workout_id))
 
-        # Add empty cells to complete the table rows
         remaining_cells = num_rows * 7 - len(month_days)
         month_days.extend([(None, False, None)] * remaining_cells)
 
@@ -479,7 +449,6 @@ def workout_summary_calendar(request, year=None):
                 rows.append(row)
                 row = []
 
-        # Add the remaining row if it's not empty
         if row:
             rows.append(row)
 

@@ -41,10 +41,9 @@ class ExerciseForm(forms.ModelForm):
         fields = ['exercise_name', 'custom_exercise_name', 'weight', 'set', 'rep', 'notes']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')  # Retrieve the 'user' argument from kwargs
+        self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-        # Filter exercise name choices based on custom exercises added by the user and exercise names created by the superuser
         self.fields['exercise_name'].queryset = ExerciseName.objects.filter(
             Q(created_by__isnull=True) | Q(created_by=self.user) | Q(created_by_id=1)
         ).order_by('name')
