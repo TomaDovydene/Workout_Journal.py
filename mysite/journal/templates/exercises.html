@@ -76,7 +76,7 @@
 </div>
 
 {% else %}
-<p>There is no history of exercises</p>
+<p class="no-history">There is no history of exercises</p>
 {% endif %}
 
 <style>
@@ -238,6 +238,17 @@
     pointer-events: none;
     cursor: default;
 }
+
+.no-history {
+    font-family: Times New Roman, serif;
+    font-size: 18px;
+    padding: 3px 6px;
+    background-color: #EBE9E2;
+    border: none;
+    color: black;
+    border-radius: 2px;
+}
+
 </style>
 
 {% endblock %}

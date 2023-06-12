@@ -4,32 +4,91 @@
 
 {% block "content" %}
 
-  {% if form.errors %}
-    <p>Login error! Try again</p>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Login required</p>
+<div class="login-container">
+    {% if form.errors %}
+      <p class="error-message">Login error! Try again</p>
     {% endif %}
-  {% endif %}
 
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>User: </td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>Password: </td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="Login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
+    {% if next %}
+      {% if user.is_authenticated %}
+        <p class="login-required-message">Login required</p>
+      {% endif %}
+    {% endif %}
 
-  <p><a href="{% url 'password_reset' %}">Did you forget your password?</a></p>
+    <form method="post" action="{% url 'login' %}" class="login-form">
+      {% csrf_token %}
+      <table class="login-table">
+        <tr>
+          <td class="login-label">User:</td>
+          <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+          <td class="login-label">Password:</td>
+          <td>{{ form.password }}</td>
+        </tr>
+      </table>
+      <input type="submit" value="Login" class="login-button" />
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    <p class="forgot-password"><a href="{% url 'password_reset' %}" class="forgot-password">Did you forget your password?</a></p>
+  </div>
+
+<style>
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.login-required-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.login-form {
+  margin-bottom: 10px;
+}
+
+.login-table {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.login-label {
+  padding-right: 10px;
+  font-weight: bold;
+  font-family: Times New Roman, serif;
+  font-size: 18px;
+}
+
+.login-button {
+  padding: 5px 10px;
+  background-color: #7B91C6;
+  border: none;
+  color: white;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #7B91C6;
+}
+
+.forgot-password {
+  margin-top: 10px;
+  font-family: Times New Roman, serif;
+  font-size: 16px;
+  color: #AB982D;
+}
+</style>
 
 {% endblock %}
