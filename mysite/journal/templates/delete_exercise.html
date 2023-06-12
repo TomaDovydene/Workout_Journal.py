@@ -12,7 +12,7 @@
 
 <br>
 
-<p>Are you sure you want to delete the exercise: <strong>{{ exercise.get_name }}</strong>?</p>
+<p>Are you sure you want to delete the exercise: <strong>{{ exercise.get_name }}: {{ exercise.weight }} kg x {{ exercise.set }} sets x {{ exercise.rep }} reps</strong>?</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn custom-btn-delete">Delete</button>

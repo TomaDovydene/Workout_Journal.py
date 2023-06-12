@@ -436,6 +436,9 @@ def workout_summary_calendar(request, year=None):
 
     num_workouts = Workout.objects.filter(athlete=user).count()
 
+    exercise_names = Exercise.objects.filter(athlete=user).values('exercise_name__name').distinct()
+    num_exercise_names = exercise_names.count()
+
     num_visits = request.session.get(f'num_visits_{user.id}', 1)
     request.session[f'num_visits_{user.id}'] = num_visits + 1
 
@@ -491,6 +494,7 @@ def workout_summary_calendar(request, year=None):
     context = {
         'num_exercises': num_exercises,
         'num_workouts': num_workouts,
+        'num_exercise_names': num_exercise_names,
         'num_visits': num_visits,
         'calendar_months': calendar_months,
     }

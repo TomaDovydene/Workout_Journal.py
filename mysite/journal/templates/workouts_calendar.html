@@ -12,6 +12,11 @@
                 <a href="{% url 'workouts' %}" class="link-style-info">{{ num_workouts }}</a>
             </td>
             <td>&nbsp;&nbsp;&nbsp;</td>
+            <th class="grey-box">Unique Exercises:</th>
+            <td class="blue-box">
+                <a href="{% url 'exercises' %}" class="link-style-info">{{ num_exercise_names }}</a>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
             <th class="grey-box">Completed Exercises:</th>
             <td class="blue-box">
                 <a href="{% url 'exercises' %}" class="link-style-info">{{ num_exercises }}</a>

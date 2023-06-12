@@ -45,6 +45,7 @@
                 <div class="centre-box">
                     <h6 class="exercise-name"><a href="{% url 'exercise_workouts' exercise.exercise_name.id %}"
                                                  class="link-style">{{ exercise.exercise_name }}</a></h6>
+                        <p class="count-workouts">({{ exercise_group|length }})</p>
                 </div>
                 {% endwith %}
             </div>
@@ -179,6 +180,13 @@
     color: #373426;
 }
 
+.count-workouts {
+    color: #6b644a;
+    font-family: Times New Roman, serif;
+    font-size: 12px;
+}
+
+
 .search-form {
     display: flex;
     align-items: center;
@@ -248,7 +256,6 @@
     color: black;
     border-radius: 2px;
 }
-
 </style>
 
 {% endblock %}
