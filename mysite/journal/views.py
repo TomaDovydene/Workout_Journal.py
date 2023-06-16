@@ -1,6 +1,6 @@
 import itertools
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from .models import Exercise, Workout, ExerciseName
 from django.views import generic
@@ -209,10 +209,12 @@ def edit_exercise(request, exercise_id):
                 exercise.exercise_name = exercise_name
 
         exercise.save()
-        return redirect('workout', workout_id=exercise.workout.id)
+        return redirect(reverse('workout', kwargs={'workout_id': exercise.workout_id}))
 
-    return render(request, 'edit_exercise.html', {'exercise': exercise})
-
+    context = {
+        'exercise': exercise,
+    }
+    return render(request, 'edit_exercise.html', context)
 
 @login_required
 def delete_exercise(request, exercise_id):
@@ -289,9 +291,12 @@ def exercise_workouts(request, exercise_name_id):
             Q(date__icontains=query)
         )
 
-    workout_info = {}
+    paginator = Paginator(workouts, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
-    for workout in workouts:
+    workout_info = {}
+    for workout in page_obj:
         exercises = workout.exercises.filter(exercise_name__exact=exercise_name)
         total_weight = exercises.aggregate(Sum('weight'))['weight__sum']
 
@@ -307,6 +312,7 @@ def exercise_workouts(request, exercise_name_id):
         'workout_info': workout_info,
         'exercise_name': exercise_name,
         'query': query if query else '',
+        'workouts': page_obj,
     }
     return render(request, 'exercise_workouts.html', context=context)
 

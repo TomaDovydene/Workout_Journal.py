@@ -20,12 +20,13 @@
 
 <br>
 
-<div style="display: flex; justify-content: space-between;">
+<div class="flex-container">
+    <a href="{% url 'exercises' %}" class="btn custom-btn-back">
+        &larr; Back to Exercises
+    </a> &nbsp; &nbsp; &nbsp;
     <form method="GET" action="{% url 'exercise_workouts' exercise_name.id %}" class="search-form">
         <div class="search-input">
             <input type="text" name="search" placeholder="Enter date or title" class="search-field">
-        </div>
-        <div>
             <button type="submit" class="search-button">Search</button>
         </div>
     </form>
@@ -75,6 +76,28 @@
     </tbody>
 </table>
 
+<div class="pagination">
+    <span class="step-links">
+        {% if workouts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ workouts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for num in workouts.paginator.page_range %}
+            {% if num == workouts.number %}
+                <span class="current-page">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if workouts.has_next %}
+            <a href="?page={{ workouts.next_page_number }}">next</a>
+            <a href="?page={{ workouts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
 <script src="{% static 'js/sort-table.js' %}"></script>
 
 <style>
@@ -108,8 +131,7 @@
 .search-form {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    margin-left: 5px;
 }
 
 .search-input {
@@ -122,6 +144,7 @@
     border-radius: 2px;
     font-style: italic;
     font-size: smaller;
+    margin-right: 5px;
 }
 
 .search-button {
@@ -150,6 +173,54 @@
 
 .link-style-table:hover {
     color: #5b472a;
+}
+
+.custom-btn-back {
+    background-color: #877203;
+    border-color: #877203;
+    color: white;
+    margin-right: 10px;
+}
+
+.custom-btn-back:hover {
+    background-color: #675702;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-family: Times New Roman, serif;
+}
+
+.pagination a,
+.pagination .current-page {
+    color: #000;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background-color: #f5f5f5;
+}
+
+.pagination .current-page {
+    background-color: #000;
+    color: #fff;
+}
+
+.pagination .disabled-link {
+    color: #999;
+    pointer-events: none;
+    cursor: default;
 }
 </style>
 

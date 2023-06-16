@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.urls import reverse
 from PIL import Image
-
+# python manage.py runserver 2000
 # Create your models here.
 
 

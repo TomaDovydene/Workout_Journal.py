@@ -12,6 +12,17 @@
 
 <br>
 
+    <div>
+        <a href="{% url 'workouts' %}" class="btn custom-btn-back">
+            &larr; Back to Workouts
+        </a> &nbsp; &nbsp; &nbsp;
+        <a href="{% url 'workout' workout.id %}" class="btn custom-btn-back">
+            Go to Workout &rightarrow;
+        </a>
+    </div>
+
+<br>
+
 <form method="POST" class="custom-form">
     {% csrf_token %}
     <div class="form-row">
@@ -86,6 +97,15 @@
 .custom-btn-edit:hover {
     background-color: #899EA6;
 }
+
+.custom-btn-back {
+    background-color: #877203;
+    border-color: #877203;
+    color: white;
+}
+
+.custom-btn-back:hover {
+    background-color: #675702;
 </style>
 
 {% endblock %}

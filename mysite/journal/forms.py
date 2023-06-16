@@ -21,11 +21,15 @@ class ProfileUpdateForm(forms.ModelForm):
 class WorkoutForm(forms.ModelForm):
     notes = forms.CharField(max_length=200, required=False, widget=forms.Textarea(attrs={'rows': 3}))
 
+    def __init__(self, *args, **kwargs):
+        super(WorkoutForm, self).__init__(*args, **kwargs)
+        self.fields['date'].required = True
+
     class Meta:
         model = Workout
         fields = ['title', 'date', 'notes']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'style': 'color: #999'}),
+            'date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'style': 'color: #020202'}),
         }
 
 

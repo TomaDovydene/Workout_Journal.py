@@ -22,8 +22,11 @@
 
 <br>
 
-<div style="display: flex; justify-content: flex-end;">
-    <a href="{% url 'add_exercise' workout.id %}" class="btn custom-btn-add">Add Exercise</a>
+<div style="display: flex; justify-content: space-between;">
+    <a href="{% url 'workouts' %}" class="btn custom-btn-back" style="display: flex; justify-content: flex-start;">
+            &larr; Back to Workouts
+        </a>
+    <a href="{% url 'add_exercise' workout.id %}" class="btn custom-btn-add" >Add Exercise</a>
 </div>
 
 <br>
@@ -164,6 +167,15 @@
 .link-style-table:hover {
     color: #5b472a;
 }
+
+.custom-btn-back {
+    background-color: #877203;
+    border-color: #877203;
+    color: white;
+}
+
+.custom-btn-back:hover {
+    background-color: #675702;
 </style>
 
 {% endblock %}
